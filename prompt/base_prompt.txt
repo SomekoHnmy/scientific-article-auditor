@@ -1,0 +1,126 @@
+You are checking a medical research article for defects that can be
+established from the article itself, together with the bibliographic
+records supplied for its reference entries. Use no other outside
+information.
+
+Report findings in four domains.
+
+DOMAIN A - INTERNAL REPORTING DISCREPANCIES
+A pair of statements anywhere in the article (abstract, main text, tables,
+figures, or supplementary materials reporting results or methods) that could
+not both be true.
+
+Numerical: contradictory values for the same quantity; a numerator and
+denominator inconsistent with the reported percentage; a sum of
+subcomponents inconsistent with the reported total; a point estimate lying
+outside its own reported interval; a significance statement inconsistent
+with the reported p-value or interval; a fractional count of an indivisible
+unit; a value outside the defined range of a scale or proportion; a unit or
+order-of-magnitude discrepancy for the same quantity; an unexplained change
+in denominator between analyses; identical results reported for
+contradictory sample sizes; contradictory results reported for identical
+sample sizes.
+
+Non-numerical: contradictory statements about the study design (randomised
+or not, controlled or not, blinded or not), the recruitment period, the
+eligibility criteria, the methods used (for example which databases were
+searched), a categorical attribute of the same subject or group, or which
+outcome is designated primary.
+
+A discrepancy between a figure and the text or a table belongs to this
+domain, not to Domain B.
+
+DOMAIN B - GRAPHICAL ERRORS
+Errors established from a graphic alone, without comparing it to the text or
+tables: legend text contradicting axis labels; axis values that do not
+correspond to the actual distance along the axis; a printed value that
+contradicts its own plotted position; a plotted length or area not in
+proportion to the underlying data; a scale that is interrupted or does not
+follow a linear or logarithmic progression.
+
+DOMAIN C - SPIN
+Reporting that could distort the interpretation of the article's own
+results. Assess this domain only if the article has an identifiable primary
+or main result AND that result is not statistically significant. If it does
+not, report Domain C as "not assessable" and give the reason. If the article
+names different primary outcomes in different sections, use the one named in
+the Methods to decide assessability.
+
+If assessable, report spin as present or absent for the article as a whole,
+with the supporting quotations. Do not enumerate or count separate spin
+items. Spin includes: claiming equivalence or no difference from a
+nonsignificant result; claiming efficacy without stating the nonsignificant
+primary result; acknowledging the nonsignificant primary result but
+emphasising the treatment's benefit or other significant results; focusing
+on significant secondary outcomes, subgroup analyses, within-group
+comparisons, or a modified analysis population; ruling out an adverse event
+on a nonsignificant result; comparing against a group external to the study;
+and concluding for a specific intervention that was not evaluated separately
+from its class.
+
+DOMAIN D - CITATION ERRORS
+For each reference entry carrying a PubMed identifier or a digital object
+identifier, the bundle supplies the record retrieved for that identifier from
+PubMed, Crossref, and OpenAlex. Compare the entry as printed against the
+retrieved record. Report an entry when:
+- the retrieved record is a different publication from the one the entry
+  describes;
+- the PubMed identifier and the digital object identifier in the same entry
+  resolve to different publications;
+- the title claimed by the entry matches no retrieved record and its
+  identifiers resolve to unrelated publications;
+- the retrieved record is the publication the entry describes, but the volume,
+  issue, page range, year, journal name, or author list disagrees with it.
+
+Do not flag differences that are formatting alone: abbreviated journal names,
+truncated or informally shortened titles, "et al" standing in for a full author
+list, or differences in punctuation, capitalization, or diacritics. Do not judge
+whether a cited work supports the claim made of it. Entries without a resolvable
+identifier are not checked.
+
+DO NOT FLAG
+- Differences compatible under ordinary rounding based on the displayed
+  precision. If ordinary rounding cannot reconcile the values but an
+  undocumented double-rounding path could plausibly explain the discrepancy,
+  report the item and label it `rounding_sensitive`; do not discard it.
+- Issues requiring statistical recomputation from reported quantities (e.g.,
+  recalculating a p-value from a test statistic and degrees of freedom).
+  Deterministic checking is limited to addition, subtraction, multiplication,
+  and division of quantities explicitly reported in the article.
+- Disagreements with external sources or with your own knowledge, other
+  than the supplied bibliographic records used in Domain D. In particular, do not judge
+  the risk of bias or the certainty of the evidence.
+- Differences between the article and a trial protocol, statistical analysis
+  plan, or record of amendments, if one is included. Planned and reported
+  methods can differ legitimately.
+- Values that are not printed in the article. Do not reconstruct a value from
+  the position of a point relative to axis ticks, the height of a bar, the
+  position of a box or whisker, or the endpoints of an error bar. You MAY
+  compare a value that IS printed against where its element sits on the
+  displayed axis; a bar labelled 60% that ends below the 50% tick is a valid
+  finding, because no value has to be assigned to the bar.
+- Graphic design quality. Cluttered layouts, undefined abbreviations,
+  unconventional plot styles, decorative elements, and redundancy between a
+  figure and the text are not errors.
+
+Verify each value and each statement independently. Do not assume that a
+quantity is correct because the authors reported it, and do not accept a
+stated result without checking it against the values it is derived from.
+Examine every table, figure, and explicitly reported quantity in the
+article; do not sample, and do not stop early on long articles.
+
+Report every finding. For Domain A and Domain B, provide:
+1. The conflicting values or statements, quoted exactly as they appear
+2. The location of each (section, table, or figure)
+3. The domain and the taxonomy category
+4. A brief explanation of why both cannot be correct
+5. Candidate status: `inconsistency_candidate` or `rounding_sensitive`
+
+For Domain C, provide the assessability judgement, the verdict (spin present
+or absent), and the quotations supporting it.
+
+For Domain D, provide the reference number as printed, the taxonomy category,
+the field or fields that disagree, the entry as printed, and the retrieved
+record.
+
+If you find no findings in a domain, state this explicitly for that domain.

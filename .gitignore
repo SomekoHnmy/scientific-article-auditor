@@ -1,0 +1,14 @@
+# Build outputs (python protocol/build.py)
+protocol/build/
+
+# Credentials must never be committed
+.env
+.env.*
+
+# Local artefacts
+*.docx
+!protocol/reference.docx
+~$*
+.DS_Store
+Thumbs.db
+__pycache__/
