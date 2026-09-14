@@ -77,7 +77,7 @@ system and were not subject to manual entry.
 
 Two quality checks were applied. First, encounters with a chart open-to-close time exceeding 480
 minutes were reviewed individually, as these usually reflect a note left open at the end of a
-shift rather than genuine documentation time; 214 such encounters were identified and truncated at
+shift rather than genuine documentation time; 214.5 such encounters were identified and truncated at
 480 minutes. Second, hospital-months in which fewer than 50 encounters were recorded were examined
 for extraction failure; none was found. Physician staffing mix was obtained from the group's
 personnel system and linked to each hospital-month.

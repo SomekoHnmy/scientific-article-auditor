@@ -6,9 +6,10 @@ information.
 Report findings in four domains.
 
 DOMAIN A - INTERNAL REPORTING DISCREPANCIES
-A pair of statements anywhere in the article (abstract, main text, tables,
-figures, or supplementary materials reporting results or methods) that could
-not both be true.
+Statements anywhere in the article (abstract, main text, tables, figures,
+or supplementary materials reporting results or methods) that cannot all be
+true as reported: either two or more statements that contradict one another,
+or a single statement that contradicts the definition of what it reports.
 
 Numerical: contradictory values for the same quantity; a numerator and
 denominator inconsistent with the reported percentage; a sum of
@@ -111,9 +112,10 @@ article; do not sample, and do not stop early on long articles.
 
 Report every finding. For Domain A and Domain B, provide:
 1. The conflicting values or statements, quoted exactly as they appear
-2. The location of each (section, table, or figure)
+2. The location of each: the file (main article or which supplementary file),
+   the page, and the section, table, or figure
 3. The domain and the taxonomy category
-4. A brief explanation of why both cannot be correct
+4. A brief explanation of why they cannot all be correct
 5. Candidate status: `inconsistency_candidate` or `rounding_sensitive`
 
 For Domain C, provide the assessability judgement, the verdict (spin present

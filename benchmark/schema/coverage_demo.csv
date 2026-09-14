@@ -1,5 +1,0 @@
-coverage_id,article_id,domain,examined_by,examiner_type,scope,result,date,note
-CV1,DEMO-EHR-01,internal_reporting_discrepancy,HS;KA,human,full_article_and_supplement,findings_recorded,2026-09-11,
-CV2,DEMO-EHR-01,graphical_error,HS;KA,human,full_article_and_supplement,findings_recorded,2026-09-11,
-CV3,DEMO-EHR-01,spin,HS;KA,human,full_article,findings_recorded,2026-09-11,Assessability gate met.
-CV4,DEMO-EHR-01,citation_error,HS;KA,human,reference_list,findings_recorded,2026-09-11,8 of 8 entries carried a resolvable identifier; all 8 were checked.

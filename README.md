@@ -29,9 +29,10 @@ This needs pandoc 3 on `PATH`, or its location in the `PANDOC` environment varia
 
 The article, supplement, journal, authors, identifiers, and references in [`benchmark/schema/`](benchmark/schema/) are **entirely fictional**. Errors were planted in them deliberately so that the schema can be shown on concrete cases; nothing there describes real research.
 
-- [`data_dictionary.md`](benchmark/schema/data_dictionary.md) — every column, with its permitted values
-- [`benchmark_demo.csv`](benchmark/schema/benchmark_demo.csv) — one row per error record
-- [`coverage_demo.csv`](benchmark/schema/coverage_demo.csv) — which domains of which article were examined
+- [`data_dictionary.md`](benchmark/schema/data_dictionary.md) — every table and column, with permitted values, and the detection log released with the study manuscript
+- [`articles_demo.csv`](benchmark/schema/articles_demo.csv) — one row per article, including articles with no record
+- [`records_demo.csv`](benchmark/schema/records_demo.csv) — one row per error record
+- [`source_reports_demo.csv`](benchmark/schema/source_reports_demo.csv) — the published reports benchmark records come from, and what each examined
 - [`errors_planted.md`](benchmark/schema/errors_planted.md) — the answer key
 
 The benchmark and main-study article lists described in Appendix 4 of the protocol will be added under `benchmark/`. Full texts of the articles will not be redistributed; each article is identified by its PubMed identifier and digital object identifier.

@@ -1,0 +1,2 @@
+source_report_id,pmid,doi,citation,domains_examined,scope,n_articles,n_records,note
+SR-DEMO-01,SYNTHETIC-8001,10.0000/demo.sr.0001,Demo Author A. Consistency between abstracts and full texts in demo journals. Demo Journal of Research Methods 2020;1:1-10.,internal_reporting_discrepancy,abstract_vs_full_text,1,1,"Fictional. Compared abstracts with full texts only, so a benchmark article from this report may carry defects elsewhere that the report never looked for."
