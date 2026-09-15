@@ -155,7 +155,7 @@ where the quantity or attribute is printed.
 | `rater1`, `rater2` | text | Initials. Empty when that judgement has not been made. |
 | `raterN_decision` | **categorical** | `confirmed` · `not_a_finding` · `rounding_sensitive` |
 | `raterN_severity` | **categorical** | `minor` · `major` · `not_graded` (spin) · empty when not confirmed and for `X00` |
-| `raterN_reason` | **categorical** | Only when the decision is `not_a_finding`: `rounding_compatible` · `extraction_error` · `parsing_error` · `ocr_error` · `representation_error` · `unit_conversion` · `omission_misread` · `misread_table_structure` · `out_of_scope_document` · `other` |
+| `raterN_reason` | **categorical** | Only when the decision is `not_a_finding`: `rounding_compatible` · `reconciled_in_article` · `not_in_version_of_record` · `extraction_error` · `parsing_error` · `ocr_error` · `representation_error` · `unit_conversion` · `omission_misread` · `misread_table_structure` · `out_of_scope_document` · `other` — defined below |
 | `discussion_outcome` | **categorical** | `resolved` · `unresolved` · empty when the raters agreed or discussion has not yet taken place |
 | `consensus_decision`, `consensus_severity`, `consensus_reason` | **categorical** | The judgement the raters agreed in discussion, in full, including when only severity was in dispute. Only when `discussion_outcome = resolved`. Same sets as the rater columns. |
 | `third_rater` | text | Initials. Only when discussion did not resolve the disagreement. |
@@ -168,6 +168,23 @@ verifies that judgement.
 
 Two judgements **agree** when decision and severity are the same. Different rejection reasons alone are not a
 disagreement.
+
+**Rejection reasons.** Each applies to a flag or reported error judged `not_a_finding`.
+
+| Value | The apparent defect is not a finding because |
+| --- | --- |
+| `rounding_compatible` | the values are compatible under ordinary rounding at their displayed precision (protocol Section 2.4) |
+| `reconciled_in_article` | the article itself explains the apparent difference, for example 44 patients enrolled of whom 42 took part |
+| `not_in_version_of_record` | the error reported in a source report, or cited by a flag, cannot be found in the version of record, for example because a corrected or different version was read |
+| `extraction_error` | the extraction tool misread characters or values |
+| `parsing_error` | structuring the extracted content (paragraphs, reading order, footnote links) attached a value to the wrong place |
+| `ocr_error` | text recognition misread characters or values printed in an image |
+| `representation_error` | another representation of the article, such as PMC XML, differs from the version of record |
+| `unit_conversion` | the values express the same quantity in different units or scales |
+| `omission_misread` | one location merely omits a value, and the omission was read as a disagreement, for example a subgroup count taken for the total |
+| `misread_table_structure` | the rows, columns, headers or footnotes of a table were matched incorrectly |
+| `out_of_scope_document` | it rests on a trial protocol, statistical analysis plan or record of amendments that should have been removed before processing |
+| `other` | none of the above applies; the reason is given in `note` |
 
 ### Resolution
 
