@@ -126,6 +126,8 @@ A discrepancy that ordinary rounding cannot reconcile will not be dismissed mere
 
 **Defects noticed outside the flagged set.** A rater who notices a defect while adjudicating a different flag will record it as a finding in its own right, adjudicate it by the same procedure, and mark its provenance as identified by human review rather than by a detection run. Such findings contribute to the primary outcome. Their number will be reported separately, by domain, so that the figure obtained from pipeline-detected findings alone remains recoverable. Raters will not read articles in full in search of further defects; the intent is only that a defect seen in passing is not discarded.
 
+**Spin assessability.** In the main study, whether an article is assessable for spin (Appendix 3) will be judged for every article, not only for those carrying a spin flag, because it defines the denominator of the spin outcome (Section 2.6). The detection runs report the primary outcome, the sentence that identifies it, and whether each primary outcome is statistically significant (Appendix 2), and these reports serve as an aid. One rater will apply the rule of Appendix 3 against the version-of-record PDF, recording the primary outcome, the sentence that identifies it, and the significance of each primary outcome, and will judge the article assessable in full, assessable in part, or not assessable; a second rater will verify that judgement, with disagreements resolved as for flags. In stages 1 and 2, where no proportion of articles with spin is estimated, assessability will be judged only for articles carrying a previously reported spin error or a spin flag.
+
 ### 2.5 Index test
 
 To detect within-article reporting defects (Section 2.4), a detection pipeline is assembled from several large language models, each applied to every article under a set of varied conditions, with all of their output pooled as a union. Its components are specified in this section and are fixed before the main study by the development stages below.
@@ -214,7 +216,7 @@ For each configuration we will report sensitivity against the reference standard
 
 **Primary outcome.** The percentage of articles containing at least one within-article reporting defect confirmed on adjudication (Section 2.4), in any of the four domains, reported per stratum. Almost all such findings will have been detected by the pipeline; the few identified by a rater in passing are included and are also counted separately.
 
-**Secondary outcomes.** The percentage of articles with at least one confirmed finding in each domain separately, with spin reported over the articles that meet its assessability condition; the percentage of confirmed findings graded major; the number of confirmed findings per article in the three counted domains, summarized as the median and interquartile range; the distribution by location (within main text, between main text and supplementary materials, within supplementary materials); the distribution by taxonomy category; the number of rounding-sensitive/indeterminate candidates; and, for citation errors, the per-article proportion of checked reference entries carrying a confirmed defect — the number of such entries divided by the number of entries checked in that article — summarized across articles as the median and interquartile range, with the proportion of entries not checkable reported alongside.
+**Secondary outcomes.** The percentage of articles with at least one confirmed finding in each domain separately, with spin reported over the articles that meet its assessability condition, including those assessable only in part, whose number is reported and which are excluded in a sensitivity analysis; the percentage of confirmed findings graded major; the number of confirmed findings per article in the three counted domains, summarized as the median and interquartile range; the distribution by location (within main text, between main text and supplementary materials, within supplementary materials); the distribution by taxonomy category; the number of rounding-sensitive/indeterminate candidates; and, for citation errors, the per-article proportion of checked reference entries carrying a confirmed defect — the number of such entries divided by the number of entries checked in that article — summarized across articles as the median and interquartile range, with the proportion of entries not checkable reported alongside.
 
 ### 2.8 Statistical analysis
 
@@ -443,8 +445,11 @@ Report every finding. For Domain A and Domain B, provide:
 4. A brief explanation of why they cannot all be correct
 5. Candidate status: `inconsistency_candidate` or `rounding_sensitive`
 
-For Domain C, provide the assessability judgement, the verdict (spin present
-or absent), and the quotations supporting it.
+For Domain C, provide the primary outcome or outcomes, the sentence that
+identifies them, quoted, and whether each is statistically significant; the
+assessability judgement (not assessable, assessed in full, or assessed in
+part); the verdict (spin present or absent); and the quotations supporting
+it.
 
 For Domain D, provide the reference number as printed, the taxonomy category,
 the field or fields that disagree, the entry as printed, and the retrieved

@@ -136,8 +136,11 @@ Report every finding. For Domain A and Domain B, provide:
 4. A brief explanation of why they cannot all be correct
 5. Candidate status: `inconsistency_candidate` or `rounding_sensitive`
 
-For Domain C, provide the assessability judgement, the verdict (spin present
-or absent), and the quotations supporting it.
+For Domain C, provide the primary outcome or outcomes, the sentence that
+identifies them, quoted, and whether each is statistically significant; the
+assessability judgement (not assessable, assessed in full, or assessed in
+part); the verdict (spin present or absent); and the quotations supporting
+it.
 
 For Domain D, provide the reference number as printed, the taxonomy category,
 the field or fields that disagree, the entry as printed, and the retrieved

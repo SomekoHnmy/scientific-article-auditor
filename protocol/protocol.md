@@ -92,7 +92,7 @@ Two stages precede the main study. **Stage 1** develops the pipeline on a benchm
 
 ### Confirmation of flags
 
-Each pooled flag is assessed independently by two raters against the version-of-record PDF, with disagreements resolved by discussion and otherwise by a third rater, and a discrepancy present only because a format conversion differs from that PDF is recorded as an input-processing error; a flag resting on an appended trial protocol, statistical analysis plan, or record of amendments that was not removed is not a finding. Confirmation is applied only to flagged items, so it establishes that a flag is a defect but never that no defect exists elsewhere in an article.
+Each pooled flag is assessed independently by two raters against the version-of-record PDF, with disagreements resolved by discussion and otherwise by a third rater, and a discrepancy present only because a format conversion differs from that PDF is recorded as an input-processing error; a flag resting on an appended trial protocol, statistical analysis plan, or record of amendments that was not removed is not a finding. Confirmation is applied only to flagged items, so it establishes that a flag is a defect but never that no defect exists elsewhere in an article. Spin assessability, which defines the denominator of the spin outcome, is judged for every article in the main sample, not only for those carrying a spin flag: one rater applies the rule of Appendix 3 against the version-of-record PDF, with the primary outcome reported by the detection runs as an aid, and a second verifies the judgement; in stages 1 and 2 it is judged only for articles with a previously reported spin error or a spin flag.
 
 ### Low-cost configuration evaluation
 
@@ -104,7 +104,7 @@ The primary outcome is the percentage of articles containing at least one within
 
 For internal reporting discrepancies and graphical errors, each confirmed finding is graded minor or major by two raters independently, according to whether the direction, statistical interpretation, or stated conclusions could change, with disagreements resolved by discussion and otherwise by a third rater. Citation errors are graded minor or major according to whether the source the entry describes can still be identified from the entry as printed; a non-existent reference is major. Spin is recorded once per article as present or absent.
 
-Secondary outcomes are the same percentage by domain, with spin computed over the articles meeting its assessability condition; the percentage of confirmed findings graded major; the number of confirmed findings per article in the three counted domains, as median and interquartile range; their distribution by location and taxonomy category; the number of rounding-sensitive candidates; and, for citation errors, the per-article proportion of checked reference entries carrying a confirmed defect, summarized across articles as the median and interquartile range, with the proportion of entries not checkable reported alongside.
+Secondary outcomes are the same percentage by domain, with spin computed over the articles meeting its assessability condition, including those assessable only in part, whose number is reported and which are excluded in a sensitivity analysis; the percentage of confirmed findings graded major; the number of confirmed findings per article in the three counted domains, as median and interquartile range; their distribution by location and taxonomy category; the number of rounding-sensitive candidates; and, for citation errors, the per-article proportion of checked reference entries carrying a confirmed defect, summarized across articles as the median and interquartile range, with the proportion of entries not checkable reported alongside.
 
 ### Statistical analysis
 
@@ -307,8 +307,11 @@ Report every finding. For Domain A and Domain B, provide:
 4. A brief explanation of why they cannot all be correct
 5. Candidate status: `inconsistency_candidate` or `rounding_sensitive`
 
-For Domain C, provide the assessability judgement, the verdict (spin present
-or absent), and the quotations supporting it.
+For Domain C, provide the primary outcome or outcomes, the sentence that
+identifies them, quoted, and whether each is statistically significant; the
+assessability judgement (not assessable, assessed in full, or assessed in
+part); the verdict (spin present or absent); and the quotations supporting
+it.
 
 For Domain D, provide the reference number as printed, the taxonomy category,
 the field or fields that disagree, the entry as printed, and the retrieved
