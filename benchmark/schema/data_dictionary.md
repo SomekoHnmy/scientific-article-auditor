@@ -49,7 +49,7 @@ computed from a site list, but a site list cannot be recovered from pairs.
 | `publisher` | text | Publisher of the version of record. |
 | `language` | text | ISO 639-2 code. Non-English articles are excluded, so this should be `eng` throughout; it is recorded so that the exclusion is auditable. |
 | `article_type` | **categorical** | `rct` · `cluster_rct` · `systematic_review` · `meta_analysis` · `cohort` · `case_control` · `cross_sectional` · `diagnostic_accuracy` · `other` |
-| `collection` | **categorical** | `benchmark` (125-article development set) · `pilot` (20 stage-2 articles) · `main_study` (300-article main sample) |
+| `collection` | **categorical** | `benchmark` (124-article development set) · `pilot` (20 stage-2 articles) · `main_study` (300-article main sample) |
 | `stratum` | **categorical** | `1` · `2` · empty for benchmark articles, which come from neither stratum |
 | `n_supplement_files` | integer | Supplementary files the publisher provides, including any removed before processing. |
 | `removed_supplements` | text | Supplementary files or sections removed before processing because they are trial protocols, statistical analysis plans, or records of amendments: `supplement_2 (trial protocol); supplement_3 (statistical analysis plan)`. Empty if none. |
@@ -155,7 +155,7 @@ where the quantity or attribute is printed.
 | `rater1`, `rater2` | text | Initials. Empty when that judgement has not been made. |
 | `raterN_decision` | **categorical** | `confirmed` · `not_a_finding` · `rounding_sensitive` |
 | `raterN_severity` | **categorical** | `minor` · `major` · `not_graded` (spin) · empty when not confirmed and for `X00` |
-| `raterN_reason` | **categorical** | Only when the decision is `not_a_finding`: `rounding_compatible` · `reconciled_in_article` · `not_in_version_of_record` · `extraction_error` · `parsing_error` · `ocr_error` · `representation_error` · `unit_conversion` · `omission_misread` · `misread_table_structure` · `out_of_scope_document` · `other` — defined below |
+| `raterN_reason` | **categorical** | Only when the decision is `not_a_finding`: `rounding_compatible` · `reconciled_in_article` · `not_in_version_of_record` · `extraction_error` · `parsing_error` · `ocr_error` · `representation_error` · `unit_conversion` · `omission_misread` · `misread_table_structure` · `out_of_scope_document` · `outside_definition` · `other` — defined below |
 | `discussion_outcome` | **categorical** | `resolved` · `unresolved` · empty when the raters agreed or discussion has not yet taken place |
 | `consensus_decision`, `consensus_severity`, `consensus_reason` | **categorical** | The judgement the raters agreed in discussion, in full, including when only severity was in dispute. Only when `discussion_outcome = resolved`. Same sets as the rater columns. |
 | `third_rater` | text | Initials. Only when discussion did not resolve the disagreement. |
@@ -184,6 +184,7 @@ disagreement.
 | `omission_misread` | one location merely omits a value, and the omission was read as a disagreement, for example a subgroup count taken for the total |
 | `misread_table_structure` | the rows, columns, headers or footnotes of a table were matched incorrectly |
 | `out_of_scope_document` | it rests on a trial protocol, statistical analysis plan or record of amendments that should have been removed before processing |
+| `outside_definition` | it is of a kind the definition excludes (protocol Section 2.4): detectable only by statistical recomputation or by reconstructing values from the geometry of a graphic, or a question of methodological appropriateness or another out-of-scope construct |
 | `other` | none of the above applies; the reason is given in `note` |
 
 ### Resolution
