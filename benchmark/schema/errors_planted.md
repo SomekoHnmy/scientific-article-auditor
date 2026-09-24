@@ -75,7 +75,7 @@ records file cannot:
 E12 (spin) was recorded on the basis of the abstract's designation of the primary outcome (waiting time, p = 0.08),
 and `DEMO-EHR-01` is marked assessable on the same basis. The protocol's rule for contested primary outcomes is that
 the Methods designation governs. The Methods names chart open-to-close time, which is reported as significant, so
-under that rule this article would be **not assessable** for spin and E12 would not exist.
+under that rule this article would be **not assessable** for spin and E12 would not exist. The quotation in `primary_outcome_quote` shows it: it is the abstract's sentence (L19), where under the rule it would be the Methods sentence at L87.
 
 The demo is left as it stands because the dependency is worth seeing: whether an article is eligible for spin
 assessment can turn on a Domain A defect recorded elsewhere in the same file (E09).
