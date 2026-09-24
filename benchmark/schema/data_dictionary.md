@@ -55,9 +55,9 @@ computed from a site list, but a site list cannot be recovered from pairs.
 | `removed_supplements` | text | Supplementary files or sections removed before processing because they are trial protocols, statistical analysis plans, or records of amendments: `supplement_2 (trial protocol); supplement_3 (statistical analysis plan)`. Empty if none. |
 | `n_references` | integer | All entries in the reference list. |
 | `n_references_checkable` | integer | Entries carrying a resolvable PubMed identifier or DOI. Denominator for the citation-error proportion. |
-| `spin_assessability` | **categorical** | `assessable` · `not_assessable` · `pending`. Whether the article meets the spin applicability gate (Appendix 3). Where sections designate different primary outcomes, the Methods designation governs, as stated in the note to Appendix 3. |
+| `spin_assessability` | **categorical** | `assessable` · `assessable_partial` · `not_assessable` · `pending`. Whether the article meets the spin applicability gate (Appendix 3); `assessable_partial` when several primary outcomes are named and only some are statistically significant, so that only two strategies are assessed. Where sections designate different primary outcomes, the Methods designation governs, as stated in the note to Appendix 3. |
 | `spin_assessability_reason` | text | The basis for the judgement. Empty while `pending`. |
-| `spin_verdict` | **categorical** | `present` · `absent` · empty unless `assessable`. The supporting quotations are the sites of the article's spin record. |
+| `spin_verdict` | **categorical** | `present` · `absent` · empty unless `assessable` or `assessable_partial`. The supporting quotations are the sites of the article's spin record. |
 | `note` | text | |
 
 The bibliographic column names follow Rayyan's CSV import format, so an export from a reference manager or from

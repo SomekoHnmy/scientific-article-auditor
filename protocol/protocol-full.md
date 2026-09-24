@@ -100,7 +100,7 @@ This section defines the target condition — the within-article reporting defec
 
 2. **Graphical errors.** Errors determinable from the graphic alone, without comparison against text or tables [@Cooper2001]. Graphic-design quality judgements — labelling completeness, visual clarity, adherence to graphing conventions, redundancy, and data density — are excluded.
 
-3. **Spin.** Specific reporting that could distort the interpretation of results and mislead readers [@Boutron2010], restricted to strategies determinable by rule. The domain is assessable when the article has an identifiable primary or main result and that result is not statistically significant; it is not restricted by study design, so systematic reviews and observational studies are assessable. Categories are drawn from Boutron et al. [@Boutron2010] and, for the systematic-review setting, from Yavchitz et al. [@Yavchitz2016] in the seven-item form used by Nascimento et al. [@Nascimento2020]. Articles that do not meet this condition will be recorded as not assessable for this domain.
+3. **Spin.** Specific reporting that could distort the interpretation of results and mislead readers [@Boutron2010], restricted to strategies determinable by rule. The domain is assessable when the article has an identifiable primary or main result and that result is not statistically significant; it is not restricted by study design, so systematic reviews and observational studies are assessable. Where several primary outcomes are named and only some are statistically significant, the domain is assessed in part, as set out in Appendix 3. Categories are drawn from Boutron et al. [@Boutron2010] and, for the systematic-review setting, from Yavchitz et al. [@Yavchitz2016] in the seven-item form used by Nascimento et al. [@Nascimento2020]. Articles that do not meet this condition will be recorded as not assessable for this domain.
 
 4. **Citation errors.** Defects in the bibliographic claims the article makes about its own reference entries, established by resolving the PubMed identifiers and digital object identifiers it gives against PubMed, Crossref, and OpenAlex [@Topaz2026]. Only entries carrying a resolvable identifier are checked; entries without one, such as books, websites, and grey literature, are recorded as not checkable and the proportion so excluded is reported. Google Scholar is not queried, as it offers no programmatic interface, which makes the count of non-existent references conservative. The counting unit is the reference entry, and each entry receives at most one category, the most severe that applies.
 
@@ -348,15 +348,25 @@ follow a linear or logarithmic progression.
 
 DOMAIN C - SPIN
 Reporting that could distort the interpretation of the article's own
-results. Assess this domain only if the article has an identifiable primary
-or main result AND that result is not statistically significant. If it does
-not, report Domain C as "not assessable" and give the reason. If the article
-names different primary outcomes in different sections, use the one named in
-the Methods to decide assessability.
+results.
 
-If assessable, report spin as present or absent for the article as a whole,
-with the supporting quotations. Do not enumerate or count separate spin
-items. Spin includes: claiming equivalence or no difference from a
+Step 1. Identify the primary outcome: the outcome the Methods call primary;
+if there is none, the outcome on which the sample size was calculated; if
+there is none, the outcome named in the stated aim. If the article names
+different primary outcomes in different sections, use the one named in the
+Methods. If no primary or main result can be identified, report Domain C as
+"not assessable" and give the reason.
+
+Step 2. Decide how far the domain can be assessed. Count one outcome
+measured at several prespecified time points as several primary outcomes.
+- Every primary outcome statistically significant: report Domain C as "not
+  assessable" and give the reason.
+- No primary outcome statistically significant: assess in full (Step 3).
+- Some statistically significant and some not: assess in part (Step 4).
+
+Step 3. Assess in full. Report spin as present or absent for the article as
+a whole, with the supporting quotations. Do not enumerate or count separate
+spin items. Spin includes: claiming equivalence or no difference from a
 nonsignificant result; claiming efficacy without stating the nonsignificant
 primary result; acknowledging the nonsignificant primary result but
 emphasising the treatment's benefit or other significant results; focusing
@@ -365,6 +375,14 @@ comparisons, or a modified analysis population; ruling out an adverse event
 on a nonsignificant result; comparing against a group external to the study;
 and concluding for a specific intervention that was not evaluated separately
 from its class.
+
+Step 4. Assess in part. For each primary outcome that is not statistically
+significant, report spin as present if the article interprets it as showing
+equivalence or no difference, or asserts efficacy in the abstract or the
+conclusions without stating that result there. Reporting or emphasising a
+statistically significant primary outcome is not spin. Report spin as
+present or absent for the article as a whole, with the supporting
+quotations.
 
 DOMAIN D - CITATION ERRORS
 For each reference entry carrying a PubMed identifier or a digital object
@@ -472,7 +490,7 @@ Domain names and the groupings within a domain occupy the left column alone. Cat
 | B04 | Plotted length or area not in proportion to the underlying data | Lengths or areas used to represent quantities are not proportional to those quantities. Most often arises when dimensions not required to portray the data are added. | Cooper 2001, Table 1 (*Numeric distortion*, first clause) |
 | B05 | Scale interrupted or not following a linear or logarithmic progression | The scale has interruptions, or its progression is neither linear nor logarithmic. | Cooper 2001, Table 1 (*Numeric distortion*, second clause) |
 | B06 | Other graphical error | Residual category for an error determinable from the graphic alone that matches no item above. | — |
-|  | **C. Spin** — specific reporting that could distort the interpretation of results and mislead readers (Boutron 2010). Restricted here to strategies determinable by rule. **Applicability gate**: the article has an identifiable primary or main result, and that result is not statistically significant.\* The gate is not restricted by study design; systematic reviews and observational studies are assessable. Articles failing the gate are recorded as not assessable for this domain. Categories are collapsed across article sections; the section in which the strategy occurs is recorded as an attribute. |  |  |
+|  | **C. Spin** — specific reporting that could distort the interpretation of results and mislead readers (Boutron 2010). Restricted here to strategies determinable by rule. **Applicability gate**: the article has an identifiable primary or main result, and that result is not statistically significant.\* The primary outcome is the one the Methods call primary; failing that, the one on which the sample size was calculated; failing that, the one named in the stated aim. Where several primary outcomes are named, one outcome assessed at several prespecified time points counting as several, the article fails the gate if all are statistically significant and is assessed in full if none is. If some are and others are not, it is assessed in part, for two strategies only and each against a nonsignificant primary outcome: interpreting that outcome as showing equivalence or no difference (C01), and asserting efficacy in the abstract or the conclusions without stating its result there (C02). Reporting or emphasising a statistically significant primary outcome is not in itself spin. The gate is not restricted by study design; systematic reviews and observational studies are assessable. Articles failing the gate are recorded as not assessable for this domain. Categories are collapsed across article sections; the section in which the strategy occurs is recorded as an attribute. |  |  |
 | C01 | Claiming equivalence or no difference for a statistically nonsignificant result | A nonsignificant result is reported or interpreted as demonstrating equivalence, comparable effectiveness, or absence of a difference, where the trial was not designed to assess equivalence or noninferiority. | Boutron 2010, Table 2 (*Claiming equivalence for statistically nonsignificant results*; *Reporting of statistically nonsignificant outcome as if the trial were an equivalence trial*) |
 | C02 | Claiming efficacy without consideration of the statistically nonsignificant primary outcome | Efficacy is asserted while the nonsignificant primary outcome result is not stated. | Boutron 2010, Table 2 |
 | C03 | Acknowledging the nonsignificant primary outcome but emphasizing the beneficial effect of the treatment | The nonsignificant primary outcome result is stated, but the treatment is nonetheless presented as beneficial. Includes a recommendation to use the treatment in clinical practice. | Boutron 2010, Table 2 |

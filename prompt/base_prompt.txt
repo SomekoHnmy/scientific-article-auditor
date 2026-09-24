@@ -41,15 +41,25 @@ follow a linear or logarithmic progression.
 
 DOMAIN C - SPIN
 Reporting that could distort the interpretation of the article's own
-results. Assess this domain only if the article has an identifiable primary
-or main result AND that result is not statistically significant. If it does
-not, report Domain C as "not assessable" and give the reason. If the article
-names different primary outcomes in different sections, use the one named in
-the Methods to decide assessability.
+results.
 
-If assessable, report spin as present or absent for the article as a whole,
-with the supporting quotations. Do not enumerate or count separate spin
-items. Spin includes: claiming equivalence or no difference from a
+Step 1. Identify the primary outcome: the outcome the Methods call primary;
+if there is none, the outcome on which the sample size was calculated; if
+there is none, the outcome named in the stated aim. If the article names
+different primary outcomes in different sections, use the one named in the
+Methods. If no primary or main result can be identified, report Domain C as
+"not assessable" and give the reason.
+
+Step 2. Decide how far the domain can be assessed. Count one outcome
+measured at several prespecified time points as several primary outcomes.
+- Every primary outcome statistically significant: report Domain C as "not
+  assessable" and give the reason.
+- No primary outcome statistically significant: assess in full (Step 3).
+- Some statistically significant and some not: assess in part (Step 4).
+
+Step 3. Assess in full. Report spin as present or absent for the article as
+a whole, with the supporting quotations. Do not enumerate or count separate
+spin items. Spin includes: claiming equivalence or no difference from a
 nonsignificant result; claiming efficacy without stating the nonsignificant
 primary result; acknowledging the nonsignificant primary result but
 emphasising the treatment's benefit or other significant results; focusing
@@ -58,6 +68,14 @@ comparisons, or a modified analysis population; ruling out an adverse event
 on a nonsignificant result; comparing against a group external to the study;
 and concluding for a specific intervention that was not evaluated separately
 from its class.
+
+Step 4. Assess in part. For each primary outcome that is not statistically
+significant, report spin as present if the article interprets it as showing
+equivalence or no difference, or asserts efficacy in the abstract or the
+conclusions without stating that result there. Reporting or emphasising a
+statistically significant primary outcome is not spin. Report spin as
+present or absent for the article as a whole, with the supporting
+quotations.
 
 DOMAIN D - CITATION ERRORS
 For each reference entry carrying a PubMed identifier or a digital object
