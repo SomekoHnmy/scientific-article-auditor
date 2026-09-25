@@ -60,6 +60,8 @@ computed from a site list, but a site list cannot be recovered from pairs.
 | `primary_outcome_result` | text | For each primary outcome, in the order of `primary_outcome`, `significant` or `not significant`, optionally followed by the P value or interval, separated by `; `. The basis for `spin_assessability`. |
 | `spin_assessability` | **categorical** | `assessable` · `assessable_partial` · `not_assessable` · `pending`. Whether the article meets the spin applicability gate (Appendix 3); `assessable_partial` when several primary outcomes are named and only some are statistically significant, so that only two strategies are assessed. Where sections designate different primary outcomes, the Methods designation governs, as stated in the note to Appendix 3. |
 | `spin_assessability_reason` | text | The basis for the judgement. Empty while `pending`. |
+| `spin_assessability_rater2` | **categorical** | `assessable` · `assessable_partial` · `not_assessable`, or empty until verified. The second rater's judgement under the same rule, made after seeing the first rater's judgement and its basis: for every article in the main study, and in stages 1 and 2 for the articles carrying a previously reported spin error or a spin flag (protocol, Confirmation of flags). A disagreement with `spin_assessability` is resolved as for flags, and `spin_assessability` then holds the resolved judgement. |
+| `spin_assessability_rater2_initials` | text | Initials of the second rater. Empty until verified. |
 | `spin_verdict` | **categorical** | `present` · `absent` · empty unless `assessable` or `assessable_partial`. The supporting quotations are the sites of the article's spin record. |
 | `note` | text | |
 
