@@ -45,4 +45,4 @@ The benchmark and main-study article lists described in Appendix 4 of the protoc
 
 ## Authors
 
-Hidehiro Someko, Keisuke Anan, Yuki Kataoka
+Hidehiro Someko, Keisuke Anan, Akiko Eto-Kimura, Kenichi Kano, Kentaro Ishida, Tasuku Inaba, Tomohiro Takayama, Takao Kaneko, Daijo Shiratsuchi, Munenori Honda, Eisuke Dohi, Yuki Kataoka

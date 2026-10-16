@@ -5,7 +5,7 @@ link-citations: true
 ---
 # Large language model–based auditing of scientific articles: protocol for tool development and a cross-sectional meta-epidemiological study of medical research articles
 
-Hidehiro Someko, Keisuke Anan, Yuki Kataoka
+Hidehiro Someko, Keisuke Anan, Akiko Eto-Kimura, Kenichi Kano, Kentaro Ishida, Tasuku Inaba, Tomohiro Takayama, Takao Kaneko, Daijo Shiratsuchi, Munenori Honda, Eisuke Dohi, Yuki Kataoka
 
 - **Hidehiro Someko, MD**
 
@@ -17,6 +17,41 @@ Hidehiro Someko, Keisuke Anan, Yuki Kataoka
   - ORCID: 0000-0002-2701-7334
   - Division of Respiratory Medicine, Saiseikai Kumamoto Hospital, 5-3-1 Chikami, Minami-ku, Kumamoto, 861-4193, Japan
   - Scientific Research WorkS Peer Support Group (SRWS-PSG), Osaka, Japan
+- **Akiko Eto-Kimura, MD, PhD**
+
+  - ORCID: 0009-0004-1233-1496
+  - AMS Landmark Clinic, 2-2-1-1 Minatomirai, Nishi-ku, Yokohama 220-0012, Japan
+  - Scientific Research WorkS Peer Support Group (SRWS-PSG), Osaka, Japan
+- **Kenichi Kano, MD**
+
+  - Department of Pharmacoepidemiology, Graduate School of Medicine, Kyoto University, Kyoto, Japan
+- **Kentaro Ishida, MD**
+
+  - Department of Gynecology and Obstetrics, Graduate School of Medicine, Kyoto University, 54 Shogoin Kawahara-cho, Sakyo-ku, Kyoto 606-8507, Japan
+- **Tasuku Inaba, PT**
+
+  - Department of Rehabilitation Medicine, The Jikei University School of Medicine, Tokyo, Japan
+  - Department of Physical Rehabilitation, National Center Hospital, National Center of Neurology and Psychiatry, Tokyo, Japan
+  - Medical Economics Division, Health Insurance Bureau, Ministry of Health, Labour and Welfare, Tokyo, Japan
+- **Tomohiro Takayama, MD**
+
+  - Kyoto University Hospital, Kyoto, Japan
+- **Takao Kaneko, PT**
+
+  - Department of Psychiatry, Seichiryo Hospital, Nagoya, Japan
+  - Scientific Research WorkS Peer Support Group (SRWS-PSG), Osaka, Japan
+- **Daijo Shiratsuchi, PhD, PT**
+
+  - Department of Physical Therapy, School of Health Sciences, Faculty of Medicine, Kagoshima University, 8-35-1 Sakuragaoka, Kagoshima, 890-8544, Japan
+- **Munenori Honda, MD, MPH, PhD**
+
+  - Department of Gastroenterology and Hepatology, Faculty of Life Sciences, Kumamoto University, 1-1-1 Honjo, Chuo-ku, Kumamoto 860-8556, Japan
+  - Department of Medical Information Technology and Administration Planning, Kumamoto University Hospital, 1-1-1 Honjo, Chuo-ku, Kumamoto 860-8556, Japan
+  - Department of Pharmacoepidemiology, Graduate School of Medicine, Kyoto University, Kyoto, Japan
+- **Eisuke Dohi, MD, PhD**
+
+  - Department of Mental Disorders, National Institute of Neuroscience, National Center of Neurology and Psychiatry, 4-1-1 Ogawa Higashicho, Kodaira-shi, Tokyo, 187-8551, Japan
+  - Center for Education in Healthcare Innovation, Institute of Science Tokyo, Tokyo, Japan
 - **Yuki Kataoka, MD, MPH, DrPH**
 
   - ORCID: 0000-0001-7982-5213
