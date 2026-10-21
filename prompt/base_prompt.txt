@@ -47,15 +47,21 @@ DOMAIN C - SPIN
 Reporting that could distort the interpretation of the article's own
 results.
 
-Step 1. Identify the primary outcome: the outcome the Methods call primary;
-if there is none, the outcome on which the sample size was calculated; if
-there is none, the outcome named in the stated aim. If the article names
-different primary outcomes in different sections, use the one named in the
-Methods. If no primary or main result can be identified, report Domain C as
-"not assessable" and give the reason.
+Step 1. Identify the primary outcomes: every outcome that the article calls
+primary or main anywhere, including outcomes named in a primary aim or
+objective and a primary outcome that the article says was later changed; if
+there is none, the outcome on which the sample size was calculated; if there
+is none, the outcome named in the stated aim. If different places name
+different primary outcomes, take all of them, but an outcome that the article
+calls secondary is not made primary by a primary aim or objective alone. If
+no primary or main result can be identified, report Domain C as "not
+assessable" and give the reason.
 
 Step 2. Decide how far the domain can be assessed. Count one outcome
-measured at several prespecified time points as several primary outcomes.
+measured at several prespecified time points as several primary outcomes,
+even when the main analysis is a single test across time. A time point counts
+separately only when the article reports its own result for it (a P value,
+an interval, or a significance marker); otherwise use the overall result.
 - Every primary outcome statistically significant: report Domain C as "not
   assessable" and give the reason.
 - No primary outcome statistically significant: assess in full (Step 3).
@@ -75,11 +81,15 @@ from its class.
 
 Step 4. Assess in part. For each primary outcome that is not statistically
 significant, report spin as present if the article interprets it as showing
-equivalence or no difference, or asserts efficacy in the abstract or the
-conclusions without stating that result there. Reporting or emphasising a
-statistically significant primary outcome is not spin. Report spin as
-present or absent for the article as a whole, with the supporting
-quotations.
+equivalence or no difference; asserts efficacy in the abstract or the
+conclusions without stating that result there; or focuses on a statistically
+significant subgroup analysis, within-group comparison, or modified analysis
+population of that outcome. Also report spin as present if the article rules
+out an adverse event on a nonsignificant result. Do not assess emphasis on
+the treatment's benefit, on other significant results, or on secondary
+outcomes. Reporting or emphasising a statistically significant primary
+outcome, or such an analysis of it, is not spin. Report spin as present or
+absent for the article as a whole, with the supporting quotations.
 
 DOMAIN D - CITATION ERRORS
 For each reference entry, the bundle supplies the record retrieved for it:
@@ -162,10 +172,10 @@ Report every finding. For Domain A and Domain B, provide:
 4. A brief explanation of why they cannot all be correct
 5. Candidate status: `inconsistency_candidate` or `rounding_sensitive`
 
-For Domain C, provide the primary outcome or outcomes, the sentence that
-identifies them, quoted, and whether each is statistically significant; the
-assessability judgement (not assessable, assessed in full, or assessed in
-part); the verdict (spin present or absent); and the quotations supporting
+For Domain C, provide the primary outcome or outcomes, the sentence or
+sentences that identify them, quoted, and whether each is statistically
+significant; the assessability judgement (not assessable, assessed in full,
+or assessed in part); the verdict (spin present or absent); and the quotations supporting
 it.
 
 For Domain D, provide the reference number as printed, the taxonomy category,

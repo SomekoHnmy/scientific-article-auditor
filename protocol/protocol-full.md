@@ -408,15 +408,21 @@ DOMAIN C - SPIN
 Reporting that could distort the interpretation of the article's own
 results.
 
-Step 1. Identify the primary outcome: the outcome the Methods call primary;
-if there is none, the outcome on which the sample size was calculated; if
-there is none, the outcome named in the stated aim. If the article names
-different primary outcomes in different sections, use the one named in the
-Methods. If no primary or main result can be identified, report Domain C as
-"not assessable" and give the reason.
+Step 1. Identify the primary outcomes: every outcome that the article calls
+primary or main anywhere, including outcomes named in a primary aim or
+objective and a primary outcome that the article says was later changed; if
+there is none, the outcome on which the sample size was calculated; if there
+is none, the outcome named in the stated aim. If different places name
+different primary outcomes, take all of them, but an outcome that the article
+calls secondary is not made primary by a primary aim or objective alone. If
+no primary or main result can be identified, report Domain C as "not
+assessable" and give the reason.
 
 Step 2. Decide how far the domain can be assessed. Count one outcome
-measured at several prespecified time points as several primary outcomes.
+measured at several prespecified time points as several primary outcomes,
+even when the main analysis is a single test across time. A time point counts
+separately only when the article reports its own result for it (a P value,
+an interval, or a significance marker); otherwise use the overall result.
 - Every primary outcome statistically significant: report Domain C as "not
   assessable" and give the reason.
 - No primary outcome statistically significant: assess in full (Step 3).
@@ -436,11 +442,15 @@ from its class.
 
 Step 4. Assess in part. For each primary outcome that is not statistically
 significant, report spin as present if the article interprets it as showing
-equivalence or no difference, or asserts efficacy in the abstract or the
-conclusions without stating that result there. Reporting or emphasising a
-statistically significant primary outcome is not spin. Report spin as
-present or absent for the article as a whole, with the supporting
-quotations.
+equivalence or no difference; asserts efficacy in the abstract or the
+conclusions without stating that result there; or focuses on a statistically
+significant subgroup analysis, within-group comparison, or modified analysis
+population of that outcome. Also report spin as present if the article rules
+out an adverse event on a nonsignificant result. Do not assess emphasis on
+the treatment's benefit, on other significant results, or on secondary
+outcomes. Reporting or emphasising a statistically significant primary
+outcome, or such an analysis of it, is not spin. Report spin as present or
+absent for the article as a whole, with the supporting quotations.
 
 DOMAIN D - CITATION ERRORS
 For each reference entry, the bundle supplies the record retrieved for it:
@@ -523,10 +533,10 @@ Report every finding. For Domain A and Domain B, provide:
 4. A brief explanation of why they cannot all be correct
 5. Candidate status: `inconsistency_candidate` or `rounding_sensitive`
 
-For Domain C, provide the primary outcome or outcomes, the sentence that
-identifies them, quoted, and whether each is statistically significant; the
-assessability judgement (not assessable, assessed in full, or assessed in
-part); the verdict (spin present or absent); and the quotations supporting
+For Domain C, provide the primary outcome or outcomes, the sentence or
+sentences that identify them, quoted, and whether each is statistically
+significant; the assessability judgement (not assessable, assessed in full,
+or assessed in part); the verdict (spin present or absent); and the quotations supporting
 it.
 
 For Domain D, provide the reference number as printed, the taxonomy category,
@@ -573,7 +583,7 @@ Domain names and the groupings within a domain occupy the left column alone. Cat
 | B04 | Plotted length or area not in proportion to the underlying data | Lengths or areas used to represent quantities are not proportional to those quantities. Most often arises when dimensions not required to portray the data are added. | Cooper 2001, Table 1 (*Numeric distortion*, first clause) |
 | B05 | Scale interrupted or not following a linear or logarithmic progression | The scale has interruptions, or its progression is neither linear nor logarithmic. | Cooper 2001, Table 1 (*Numeric distortion*, second clause) |
 | B06 | Other graphical error | Residual category for an error determinable from the graphic alone that matches no item above. | — |
-|  | **C. Spin** — specific reporting that could distort the interpretation of results and mislead readers (Boutron 2010). Restricted here to strategies determinable by rule. **Applicability gate**: the article has an identifiable primary or main result, and that result is not statistically significant.\* The primary outcome is the one the Methods call primary; failing that, the one on which the sample size was calculated; failing that, the one named in the stated aim. Where several primary outcomes are named, one outcome assessed at several prespecified time points counting as several, the article fails the gate if all are statistically significant and is assessed in full if none is. If some are and others are not, it is assessed in part, for two strategies only and each against a nonsignificant primary outcome: interpreting that outcome as showing equivalence or no difference (C01), and asserting efficacy in the abstract or the conclusions without stating its result there (C02). Reporting or emphasising a statistically significant primary outcome is not in itself spin. The gate is not restricted by study design; systematic reviews and observational studies are assessable. Articles failing the gate are recorded as not assessable for this domain. Categories are collapsed across article sections; the section in which the strategy occurs is recorded as an attribute. |  |  |
+|  | **C. Spin** — specific reporting that could distort the interpretation of results and mislead readers (Boutron 2010). Restricted here to strategies determinable by rule. **Applicability gate**: the article has an identifiable primary or main result, and that result is not statistically significant.\* The primary outcomes are all outcomes that the article designates as primary or main anywhere, including outcomes named in a primary aim or objective and a primary outcome that the article reports was later changed, although an outcome the article calls secondary is not made primary by a primary aim or objective alone; where there is none, the outcome on which the sample size was calculated; failing that, the one named in the stated aim. Where several primary outcomes are named, one outcome assessed at several prespecified time points counting as several, including when the main analysis is a single test across time (a time point counts separately only when the article reports its own result for it, as a P value, an interval, or a significance marker, and otherwise the overall result is used), the article fails the gate if all are statistically significant and is assessed in full if none is. If some are and others are not, it is assessed in part, for the strategies that can be judged against a nonsignificant primary outcome on its own: interpreting that outcome as showing equivalence or no difference (C01); asserting efficacy in the abstract or the conclusions without stating its result there (C02); focusing on a significant subgroup analysis (C06), within-group comparison (C07), or modified analysis population (C08) of that outcome; and ruling out an adverse event on a nonsignificant result (C09). The strategies of emphasis (C03 to C05) are not assessed in part, because emphasising a benefit or other significant results can rest on the significant primary outcome. Reporting or emphasising a statistically significant primary outcome, or a subgroup, within-group, or modified-population analysis of it, is not in itself spin. The gate is not restricted by study design; systematic reviews and observational studies are assessable. Articles failing the gate are recorded as not assessable for this domain. Categories are collapsed across article sections; the section in which the strategy occurs is recorded as an attribute. |  |  |
 | C01 | Claiming equivalence or no difference for a statistically nonsignificant result | A nonsignificant result is reported or interpreted as demonstrating equivalence, comparable effectiveness, or absence of a difference, where the trial was not designed to assess equivalence or noninferiority. | Boutron 2010, Table 2 (*Claiming equivalence for statistically nonsignificant results*; *Reporting of statistically nonsignificant outcome as if the trial were an equivalence trial*) |
 | C02 | Claiming efficacy without consideration of the statistically nonsignificant primary outcome | Efficacy is asserted while the nonsignificant primary outcome result is not stated. | Boutron 2010, Table 2 |
 | C03 | Acknowledging the nonsignificant primary outcome but emphasizing the beneficial effect of the treatment | The nonsignificant primary outcome result is stated, but the treatment is nonetheless presented as beneficial. Includes a recommendation to use the treatment in clinical practice. | Boutron 2010, Table 2 |
@@ -591,7 +601,7 @@ Domain names and the groupings within a domain occupy the left column alone. Cat
 | D03 | Identifier–record mismatch | The identifier resolves to a publication other than the one the entry describes. | Topaz 2026 (operationalization) |
 | D04 | Bibliographic field error | The record retrieved for the identifier, or matched to an entry without one, is the publication the entry describes, but one or more fields disagree with it. The disagreeing fields (volume, issue, pages, year, journal, authors, title) are recorded as an attribute. | — |
 
-\* **Contested primary outcome.** Where the article designates different primary outcomes in different sections, the designation given in the Methods governs the gate; the discrepancy itself is recorded separately as an internal reporting discrepancy. This affects the gate only when one designation is statistically significant and the other is not.
+\* **Contested primary outcome.** Where the article designates different primary outcomes in different sections, all of them are taken as primary outcomes for the gate, so that an outcome designated primary in one section is not set aside by a narrower designation in another; the discrepancy itself is recorded separately as an internal reporting discrepancy. This affects the gate only when one designation is statistically significant and another is not, in which case the article is assessed in part.
 
 ## Appendix 4. Benchmark and development article lists
 
