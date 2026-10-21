@@ -138,23 +138,23 @@ The strata will be sampled in priority order, with Stratum 1 completed before St
 
 The input for each article is the publisher's version-of-record PDF, which is the canonical source for both strata, and comprises the full text together with those supplementary materials that report results or describe the methods as actually applied; how it is divided across calls is one of the conditions in Section 2.5. Trial protocols, statistical analysis plans, and records of amendments supplied as supplementary materials will be removed before processing, identified from the file name where the publisher supplies them as separate files and from section headings where they are bound into a combined file, and the documents removed from each article will be recorded. A difference between such a plan and the report may reflect a legitimate amendment rather than a defect in reporting (Section 2.4). Each PDF will be processed once using the Adobe PDF Extract API. The canonical article bundle will comprise the structured JSON output with reading order and page coordinates, tables represented as both machine-readable CSV files and PNG renditions, extracted figure images, and the associated captions and surrounding text. Table-footnote markers and their footnote text will be linked where recoverable, and the table PNG and original PDF retained for verification. Extracted figure images will be supplied to a multimodal model, with the use of an additional OCR transcript varied as described in Section 2.5.
 
-The reference list is parsed separately. For every entry carrying a PubMed identifier or a digital object identifier, the record for that identifier will be retrieved from PubMed, Crossref, and OpenAlex and supplied with the canonical bundle alongside the entry as printed; entries without a resolvable identifier will be marked not checkable. This retrieval is deterministic and is performed once, before detection, so that models compare a claimed record against a retrieved one without querying any service at inference time.
+The reference list is parsed separately. For every entry carrying a PubMed identifier or a digital object identifier, the record for that identifier will be retrieved from PubMed, Crossref, and OpenAlex. For an entry without one, a record will be matched to the entry as printed: first through the PubMed citation matcher (ECitMatch), from the journal, year, volume, first page, and first author; and, where that gives no unique match, through a Crossref bibliographic search, whose top candidate is accepted only when (i) its title agrees with the printed title after normalization, or reaches a similarity threshold fixed before stage 2, (ii) its first author or year agrees with the entry, and (iii) it is clearly separated from the second candidate. Because the citation matcher queries on the volume and page as printed, the title search is what reaches entries whose volume or page is itself in error. The retrieved or matched record is supplied with the canonical bundle alongside the entry as printed, together with the route by which it was obtained; entries for which no record is retrieved or matched will be marked not checkable, not as non-existent. This retrieval is deterministic and is performed once, before detection, so that models compare a claimed record against a retrieved one without querying any service at inference time.
 
 ### 2.4 Target condition and adjudication of flags
 
 This section defines the target condition — the within-article reporting defect — and the procedure by which candidate flags are confirmed against it. Because the procedure is applied only to flagged items, it establishes that a flag is a defect but never that no defect exists elsewhere in an article, so the frequencies reported in Section 2.7 are lower bounds.
 
-**Operational definition of the target condition.** The target condition is a **within-article reporting defect**: a defect in reporting that can be established from the article’s own content — its abstract, main text, tables, figures, and those supplementary materials that report results or describe the methods as actually applied (Section 2.3) — or, for its reference entries, by resolving the identifiers it gives against public bibliographic catalogues. Four constructs qualify, and are defined in the taxonomy below: statements within the article that cannot all be true as reported, whether against one another or against the definition of what they report, after allowing for rounding (see “Conditions not counted as a finding” below); an error determinable from a graphic alone; reporting that could distort the interpretation of the article’s own results; and a bibliographic claim about one of the article’s own reference entries that the catalogues contradict. Defects requiring judgement about the substance of an external source are outside the definition. A flag that adjudication confirms to be such a defect is a **confirmed finding**, and an article meets the target condition when it carries at least one.
+**Operational definition of the target condition.** The target condition is a **within-article reporting defect**: a defect in reporting that can be established from the article’s own content — its abstract, main text, tables, figures, and those supplementary materials that report results or describe the methods as actually applied (Section 2.3) — or, for its reference entries, by checking them against the records of public bibliographic catalogues. Four constructs qualify, and are defined in the taxonomy below: statements within the article that cannot all be true as reported, whether against one another or against the definition of what they report, after allowing for rounding (see “Conditions not counted as a finding” below); an error determinable from a graphic alone; reporting that could distort the interpretation of the article’s own results; and a bibliographic claim about one of the article’s own reference entries that the catalogues contradict. Defects requiring judgement about the substance of an external source are outside the definition. A flag that adjudication confirms to be such a defect is a **confirmed finding**, and an article meets the target condition when it carries at least one.
 
 **Taxonomy of within-article reporting defects.** The prespecified taxonomy comprises four top-level domains. Classification is by **type of discrepancy**; the location of the conflicting statements is recorded separately as an attribute of each finding, using the location scheme of Puljak et al. [@Puljak2020] extended to cover supplementary materials. Each confirmed finding receives exactly one category. The full classification, with the source of each category, is given in **Appendix 3**.
 
-1. **Internal reporting discrepancies.** Statements within the same article that cannot all be true as reported [@Francis2013], termed internal reporting discrepancies by Puljak et al. [@Puljak2020]. Most consist of two or more statements that contradict one another; some are established by a single statement that contradicts the definition of what it reports, such as a fractional number of patients or a proportion above 100%. Categories are numerical and non-numerical. A discrepancy between a figure and the text or a table belongs to this domain, not to the graphical domain, following Puljak et al. [@Puljak2020] and the internal/external distinction of Cooper et al. [@Cooper2001].
+1. **Internal reporting discrepancies.** Statements within the same article that cannot all be true as reported [@Francis2013], termed internal reporting discrepancies by Puljak et al. [@Puljak2020]. Most consist of two or more statements that contradict one another; some are established by a single statement that contradicts the definition of what it reports, such as a fractional number of patients or a proportion above 100%. A statement that names which studies, groups, domains, or items have a property presents that list as complete, so it contradicts a table or figure of the same article that shows further members with that property. Categories are numerical and non-numerical. A discrepancy between a figure and the text or a table belongs to this domain, not to the graphical domain, following Puljak et al. [@Puljak2020] and the internal/external distinction of Cooper et al. [@Cooper2001].
 
 2. **Graphical errors.** Errors determinable from the graphic alone, without comparison against text or tables [@Cooper2001]. Graphic-design quality judgements — labelling completeness, visual clarity, adherence to graphing conventions, redundancy, and data density — are excluded.
 
 3. **Spin.** Specific reporting that could distort the interpretation of results and mislead readers [@Boutron2010], restricted to strategies determinable by rule. The domain is assessable when the article has an identifiable primary or main result and that result is not statistically significant; it is not restricted by study design, so systematic reviews and observational studies are assessable. Where several primary outcomes are named and only some are statistically significant, the domain is assessed in part, as set out in Appendix 3. Categories are drawn from Boutron et al. [@Boutron2010] and, for the systematic-review setting, from Yavchitz et al. [@Yavchitz2016] in the seven-item form used by Nascimento et al. [@Nascimento2020]. Articles that do not meet this condition will be recorded as not assessable for this domain.
 
-4. **Citation errors.** Defects in the bibliographic claims the article makes about its own reference entries, established by resolving the PubMed identifiers and digital object identifiers it gives against PubMed, Crossref, and OpenAlex [@Topaz2026]. Only entries carrying a resolvable identifier are checked; entries without one, such as books, websites, and grey literature, are recorded as not checkable and the proportion so excluded is reported. Google Scholar is not queried, as it offers no programmatic interface, which makes the count of non-existent references conservative. The counting unit is the reference entry, and each entry receives at most one category, the most severe that applies.
+4. **Citation errors.** Defects in the bibliographic claims the article makes about its own reference entries, established by comparing each entry with the record retrieved from PubMed, Crossref, and OpenAlex for the PubMed identifier or digital object identifier it gives or, for an entry without one, matched to it as printed (Section 2.3) [@Topaz2026]. Entries for which no record is retrieved or matched, such as books, websites, and grey literature, are recorded as not checkable and the proportion so excluded is reported. An entry matched without an identifier can carry only a bibliographic field error, since the other categories concern the identifiers an entry gives. Google Scholar is not queried, as it offers no programmatic interface, which makes the count of non-existent references conservative. The counting unit is the reference entry, and each entry receives at most one category, the most severe that applies.
 
 Defects established from the article’s own content but outside these four domains will be retained as **Other within-article concerns** for exploratory reporting, and excluded from the primary and secondary outcomes and from sensitivity calculations; they are recorded under a single code (Appendix 3). Methodological appropriateness, risk of bias, reporting-guideline adherence, plagiarism, registry discrepancies, discrepancies between the report and its trial protocol, statistical analysis plan, or record of amendments, raw-data errors, and whether a cited work supports the claim made of it are outside scope: each requires judgement about the substance of an external source, or a different evaluative construct. Recurring findings may inform future expansion of the taxonomy but will not be promoted into the prespecified domains after the main study begins.
 
@@ -166,7 +166,7 @@ A discrepancy that ordinary rounding cannot reconcile will not be dismissed mere
 
 *Statistical recomputation.* Discrepancies detectable only by recomputing statistics from reported quantities (e.g., recalculating a p-value from a test statistic and degrees of freedom) are outside the definition.
 
-*Graphical estimation.* A value not printed in the article may not be reconstructed from the geometry of a graphic: not from the position of a plotted point relative to axis ticks, from bar height, from a box and its boundaries, or from an error bar and the axis scale. Values printed in a figure, caption, or legend remain eligible, as do symbols defined there; a defined significance symbol may be checked against a reported p-value or confidence interval. Comparing a printed value against its own plotted position is permitted: a bar explicitly labelled 60% that terminates below the displayed 50% tick is a confirmed finding, since no value has to be assigned to the bar. Where the plotted position is too imprecise to establish a contradiction without estimating the underlying value, the candidate will not be confirmed.
+*Graphical estimation.* A value not printed in the article may not be reconstructed from the geometry of a graphic: not from the position of a plotted point relative to axis ticks, from bar height, from a box and its boundaries, or from an error bar and the axis scale. Values printed in a figure, caption, or legend remain eligible, as do symbols defined there; a defined significance symbol may be checked against a reported p-value or confidence interval. Comparing a printed value against its own plotted position is permitted: a bar explicitly labelled 60% that terminates below the displayed 50% tick is a confirmed finding, since no value has to be assigned to the bar. The same applies when the value is printed elsewhere in the article, or follows by deterministic calculation from values printed there, and the plotted element and that value lie on opposite sides of a displayed tick. Only the ticks drawn on the axis are used, with no comparison against a position between two ticks; an element that a tick line passes through is taken to lie at that tick, and is confirmed only where the value lies clearly beyond it. Where the plotted position is too imprecise to establish a contradiction without estimating the underlying value, the candidate will not be confirmed.
 
 **Severity grading.** Each confirmed finding in the internal-reporting-discrepancy and graphical-error domains will be graded on a binary scale. A confirmed citation error is graded major when the source the entry describes cannot be identified from the entry as printed, and minor otherwise; a non-existent reference is always major. Confirmed spin is not graded.
 
@@ -208,7 +208,7 @@ The conditions below will be varied and reported. The list is a prespecified sta
 
 1. Supplement handling — main text and supplementary materials together versus processed separately with a cross-referencing pass.
 
-1. Figure handling — an extracted figure image supplied directly to a multimodal model versus the same image supplied together with a machine-generated OCR transcript. In both conditions, checking is limited to values, labels, and symbols explicitly printed in the figure, caption, or legend, and to the position of plotted elements relative to the displayed axes. A printed value may be checked against its own plotted position; a value that is not printed may not be reconstructed from graphical geometry (Section 2.4).
+1. Figure handling — an extracted figure image supplied directly to a multimodal model versus the same image supplied together with a machine-generated OCR transcript. In both conditions, checking is limited to values, labels, and symbols explicitly printed in the figure, caption, or legend, and to the position of plotted elements relative to the displayed axes. A printed value, or one calculated from printed values, may be checked against a plotted element when a displayed tick separates the two; a value that is not printed may not be reconstructed from graphical geometry (Section 2.4).
 
 1. Repetition — model output varies between runs, so each condition will be run three times per article.
 
@@ -268,7 +268,7 @@ For each configuration we will report sensitivity against the reference standard
 
 **Primary outcome.** The percentage of articles containing at least one within-article reporting defect confirmed on adjudication (Section 2.4), in any of the four domains, reported per stratum. Almost all such findings will have been detected by the pipeline; the few identified by a rater in passing are included and are also counted separately.
 
-**Secondary outcomes.** The percentage of articles with at least one confirmed finding in each domain separately, with spin reported over the articles that meet its assessability condition, including those assessable only in part, whose number is reported and which are excluded in a sensitivity analysis; the percentage of confirmed findings graded major; the number of confirmed findings per article in the three counted domains, summarized as the median and interquartile range; the distribution by location (within main text, between main text and supplementary materials, within supplementary materials); the distribution by taxonomy category; the number of rounding-sensitive/indeterminate candidates; and, for citation errors, the per-article proportion of checked reference entries carrying a confirmed defect — the number of such entries divided by the number of entries checked in that article — summarized across articles as the median and interquartile range, with the proportion of entries not checkable reported alongside.
+**Secondary outcomes.** The percentage of articles with at least one confirmed finding in each domain separately, with spin reported over the articles that meet its assessability condition, including those assessable only in part, whose number is reported and which are excluded in a sensitivity analysis; the percentage of confirmed findings graded major; the number of confirmed findings per article in the three counted domains, summarized as the median and interquartile range; the distribution by location (within main text, between main text and supplementary materials, within supplementary materials); the distribution by taxonomy category; the number of rounding-sensitive/indeterminate candidates; and, for citation errors, the per-article proportion of checked reference entries carrying a confirmed defect — the number of such entries divided by the number of entries checked in that article — summarized across articles as the median and interquartile range, with the proportion of entries not checkable reported alongside; the number of entries checked by each route (identifier, citation matcher, title search) is reported, and the proportion is also computed, as a sensitivity analysis, over the entries checked by identifier alone.
 
 ### 2.8 Statistical analysis
 
@@ -292,7 +292,7 @@ The study analyses published documents only, involves no human participants or p
 
 - **Input processing:** version-of-record PDFs (Strata 1 and 2) will be processed once through the Adobe PDF Extract API, following the previously established pipeline [@Kataoka2026]. The canonical bundle will include structured JSON, table data in CSV format with corresponding PNG renditions, recoverable links between table-footnote markers and footnote text, extracted figure images, captions, surrounding text, reading order, and page coordinates; PMC XML will be retrieved through the NCBI OA web service only for the Stratum 2 input-format sub-analysis and supplied directly, with its native structure and links to tables and figures preserved, without first converting it to PDF or passing it through the Adobe extraction pipeline. The version-of-record PDF remains the canonical source for source-level adjudication.
 
-- **Bibliographic verification:** reference entries will be resolved through the NCBI E-utilities, the Crossref REST API, and the OpenAlex API. Retrieved records, the query date, and the API versions will be stored with the canonical bundle so that the comparison can be re-executed.
+- **Bibliographic verification:** reference entries will be resolved, or matched as printed, through the NCBI E-utilities (including ECitMatch), the Crossref REST API, and the OpenAlex API. Retrieved records, the route by which each was obtained, the query date, and the API versions will be stored with the canonical bundle so that the comparison can be re-executed.
 
 - **Languages/libraries:** Python (pydantic, typer, pandas, numpy, scikit-learn, httpx).
 
@@ -386,8 +386,12 @@ sample sizes.
 Non-numerical: contradictory statements about the study design (randomised
 or not, controlled or not, blinded or not), the recruitment period, the
 eligibility criteria, the methods used (for example which databases were
-searched), a categorical attribute of the same subject or group, or which
-outcome is designated primary.
+searched, which reference standard or data set an analysis used, or how the
+same analysis is described in the Methods and in the Results, including the
+reason given for not performing it), a categorical attribute of the same
+subject or group, or which outcome is designated primary. Compare table
+entries with their own footnotes, and figure legends with the figures they
+describe.
 
 A discrepancy between a figure and the text or a table belongs to this
 domain, not to Domain B.
@@ -439,10 +443,13 @@ present or absent for the article as a whole, with the supporting
 quotations.
 
 DOMAIN D - CITATION ERRORS
-For each reference entry carrying a PubMed identifier or a digital object
-identifier, the bundle supplies the record retrieved for that identifier from
-PubMed, Crossref, and OpenAlex. Compare the entry as printed against the
-retrieved record. Report an entry when:
+For each reference entry, the bundle supplies the record retrieved for it:
+for an entry carrying a PubMed identifier or a digital object identifier,
+the record for that identifier from PubMed, Crossref, and OpenAlex; for an
+entry without one, the record matched to the entry as printed, with the
+route by which it was matched. Entries for which no record could be
+retrieved or matched are not checked. Compare the entry as printed against
+the retrieved record. Report an entry when:
 - the retrieved record is a different publication from the one the entry
   describes;
 - the PubMed identifier and the digital object identifier in the same entry
@@ -451,12 +458,13 @@ retrieved record. Report an entry when:
   identifiers resolve to unrelated publications;
 - the retrieved record is the publication the entry describes, but the volume,
   issue, page range, year, journal name, or author list disagrees with it.
+The first three apply only to entries carrying an identifier; for an entry
+without one, only the last applies.
 
 Do not flag differences that are formatting alone: abbreviated journal names,
 truncated or informally shortened titles, "et al" standing in for a full author
 list, or differences in punctuation, capitalization, or diacritics. Do not judge
-whether a cited work supports the claim made of it. Entries without a resolvable
-identifier are not checked.
+whether a cited work supports the claim made of it.
 
 DO NOT FLAG
 - Differences compatible under ordinary rounding based on the displayed
@@ -470,15 +478,25 @@ DO NOT FLAG
 - Disagreements with external sources or with your own knowledge, other
   than the supplied bibliographic records used in Domain D. In particular, do not judge
   the risk of bias or the certainty of the evidence.
-- Differences between the article and a trial protocol, statistical analysis
-  plan, or record of amendments, if one is included. Planned and reported
-  methods can differ legitimately.
+- Differences between the article and an appended trial protocol,
+  statistical analysis plan, or record of amendments, if one is included.
+  Planned and reported methods can differ legitimately. This applies only to
+  such appended documents: within the article itself, an analysis that the
+  Methods describe as planned and that the Results describe differently, or
+  decline to report for a reason that does not fit that description, is a
+  Domain A finding.
 - Values that are not printed in the article. Do not reconstruct a value from
   the position of a point relative to axis ticks, the height of a bar, the
   position of a box or whisker, or the endpoints of an error bar. You MAY
   compare a value that IS printed against where its element sits on the
   displayed axis; a bar labelled 60% that ends below the 50% tick is a valid
-  finding, because no value has to be assigned to the bar.
+  finding, because no value has to be assigned to the bar. The same holds for
+  a value printed in a table or the text, or calculated directly from printed
+  values, when the plotted element and that value lie on opposite sides of a
+  displayed tick. Use only the ticks drawn on the axis, and do not compare
+  against a position between two ticks. An element that a tick line passes
+  through counts as lying at that tick: report it only if the value lies
+  clearly beyond that tick, not merely next to it.
 - Graphic design quality. Cluttered layouts, undefined abbreviations,
   unconventional plot styles, decorative elements, and redundancy between a
   figure and the text are not errors.
@@ -488,6 +506,14 @@ quantity is correct because the authors reported it, and do not accept a
 stated result without checking it against the values it is derived from.
 Examine every table, figure, and explicitly reported quantity in the
 article; do not sample, and do not stop early on long articles.
+
+When two statements could be reconciled only by an assumption that the
+article does not state, report them, and give in the explanation the
+assumption that would reconcile them. Do not report them when the article's
+own text, column headings, footnotes, or stated sample sizes reconcile them.
+A statement that names which studies, groups, domains, or items have a
+property presents that list as complete; report it when a table or figure in
+the article shows further members with that property.
 
 Report every finding. For Domain A and Domain B, provide:
 1. The conflicting values or statements, quoted exactly as they appear
@@ -559,11 +585,11 @@ Domain names and the groupings within a domain occupy the left column alone. Cat
 | C09 | Ruling out an adverse event on a statistically nonsignificant result | A nonsignificant safety result is interpreted as demonstrating absence of harm, or safety is claimed on the basis of a nonsignificant result. | Boutron 2010, Table 2 (merges the Discussion and Conclusions rows); Yavchitz 2016, as operationalized in Nascimento 2020, item 4 |
 | C10 | Comparison with the placebo group of another trial | The experimental group is compared against a group external to the trial in order to support a claim of benefit. | Boutron 2010, Table 2 |
 | C11 | Conclusion extrapolates the findings to a different intervention | The conclusion claims efficacy of one specific intervention although the review or study evaluated a class of several interventions and did not evaluate that intervention separately. | Yavchitz 2016, as operationalized in Nascimento 2020, item 7 |
-|  | **D. Citation errors** — defects in the bibliographic claims the article makes about its own references, established by resolving the identifiers it gives against public bibliographic catalogues (PubMed, Crossref, OpenAlex). Only entries carrying a resolvable PubMed identifier or digital object identifier are checked; entries without one, such as books, websites, and grey literature, are recorded as not checkable. The counting unit is the reference entry, and each entry receives at most one category, the most severe that applies. |  |  |
+|  | **D. Citation errors** — defects in the bibliographic claims the article makes about its own references, established against the records of public bibliographic catalogues (PubMed, Crossref, OpenAlex), retrieved for the PubMed identifier or digital object identifier an entry gives or, for an entry without one, matched to the entry as printed. Entries for which no record is retrieved or matched, such as books, websites, and grey literature, are recorded as not checkable. D01 to D03 concern identifiers and apply only to entries carrying one; an entry matched without an identifier can carry only D04. The counting unit is the reference entry, and each entry receives at most one category, the most severe that applies. |  |  |
 | D01 | Non-existent reference | The title claimed by the entry matches no record in any catalogue searched, and any identifier it carries resolves to an unrelated publication. | Topaz 2026 (operationalization) |
 | D02 | Conflicting identifiers within one entry | The PubMed identifier and the digital object identifier given in the same entry resolve to different publications. | Topaz 2026 (operationalization) |
 | D03 | Identifier–record mismatch | The identifier resolves to a publication other than the one the entry describes. | Topaz 2026 (operationalization) |
-| D04 | Bibliographic field error | The identifier resolves to the publication the entry describes, but one or more fields disagree with the retrieved record. The disagreeing fields (volume, issue, pages, year, journal, authors, title) are recorded as an attribute. | — |
+| D04 | Bibliographic field error | The record retrieved for the identifier, or matched to an entry without one, is the publication the entry describes, but one or more fields disagree with it. The disagreeing fields (volume, issue, pages, year, journal, authors, title) are recorded as an attribute. | — |
 
 \* **Contested primary outcome.** Where the article designates different primary outcomes in different sections, the designation given in the Methods governs the gate; the discrepancy itself is recorded separately as an internal reporting discrepancy. This affects the gate only when one designation is statistically significant and the other is not.
 

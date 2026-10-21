@@ -25,8 +25,12 @@ sample sizes.
 Non-numerical: contradictory statements about the study design (randomised
 or not, controlled or not, blinded or not), the recruitment period, the
 eligibility criteria, the methods used (for example which databases were
-searched), a categorical attribute of the same subject or group, or which
-outcome is designated primary.
+searched, which reference standard or data set an analysis used, or how the
+same analysis is described in the Methods and in the Results, including the
+reason given for not performing it), a categorical attribute of the same
+subject or group, or which outcome is designated primary. Compare table
+entries with their own footnotes, and figure legends with the figures they
+describe.
 
 A discrepancy between a figure and the text or a table belongs to this
 domain, not to Domain B.
@@ -78,10 +82,13 @@ present or absent for the article as a whole, with the supporting
 quotations.
 
 DOMAIN D - CITATION ERRORS
-For each reference entry carrying a PubMed identifier or a digital object
-identifier, the bundle supplies the record retrieved for that identifier from
-PubMed, Crossref, and OpenAlex. Compare the entry as printed against the
-retrieved record. Report an entry when:
+For each reference entry, the bundle supplies the record retrieved for it:
+for an entry carrying a PubMed identifier or a digital object identifier,
+the record for that identifier from PubMed, Crossref, and OpenAlex; for an
+entry without one, the record matched to the entry as printed, with the
+route by which it was matched. Entries for which no record could be
+retrieved or matched are not checked. Compare the entry as printed against
+the retrieved record. Report an entry when:
 - the retrieved record is a different publication from the one the entry
   describes;
 - the PubMed identifier and the digital object identifier in the same entry
@@ -90,12 +97,13 @@ retrieved record. Report an entry when:
   identifiers resolve to unrelated publications;
 - the retrieved record is the publication the entry describes, but the volume,
   issue, page range, year, journal name, or author list disagrees with it.
+The first three apply only to entries carrying an identifier; for an entry
+without one, only the last applies.
 
 Do not flag differences that are formatting alone: abbreviated journal names,
 truncated or informally shortened titles, "et al" standing in for a full author
 list, or differences in punctuation, capitalization, or diacritics. Do not judge
-whether a cited work supports the claim made of it. Entries without a resolvable
-identifier are not checked.
+whether a cited work supports the claim made of it.
 
 DO NOT FLAG
 - Differences compatible under ordinary rounding based on the displayed
@@ -109,15 +117,25 @@ DO NOT FLAG
 - Disagreements with external sources or with your own knowledge, other
   than the supplied bibliographic records used in Domain D. In particular, do not judge
   the risk of bias or the certainty of the evidence.
-- Differences between the article and a trial protocol, statistical analysis
-  plan, or record of amendments, if one is included. Planned and reported
-  methods can differ legitimately.
+- Differences between the article and an appended trial protocol,
+  statistical analysis plan, or record of amendments, if one is included.
+  Planned and reported methods can differ legitimately. This applies only to
+  such appended documents: within the article itself, an analysis that the
+  Methods describe as planned and that the Results describe differently, or
+  decline to report for a reason that does not fit that description, is a
+  Domain A finding.
 - Values that are not printed in the article. Do not reconstruct a value from
   the position of a point relative to axis ticks, the height of a bar, the
   position of a box or whisker, or the endpoints of an error bar. You MAY
   compare a value that IS printed against where its element sits on the
   displayed axis; a bar labelled 60% that ends below the 50% tick is a valid
-  finding, because no value has to be assigned to the bar.
+  finding, because no value has to be assigned to the bar. The same holds for
+  a value printed in a table or the text, or calculated directly from printed
+  values, when the plotted element and that value lie on opposite sides of a
+  displayed tick. Use only the ticks drawn on the axis, and do not compare
+  against a position between two ticks. An element that a tick line passes
+  through counts as lying at that tick: report it only if the value lies
+  clearly beyond that tick, not merely next to it.
 - Graphic design quality. Cluttered layouts, undefined abbreviations,
   unconventional plot styles, decorative elements, and redundancy between a
   figure and the text are not errors.
@@ -127,6 +145,14 @@ quantity is correct because the authors reported it, and do not accept a
 stated result without checking it against the values it is derived from.
 Examine every table, figure, and explicitly reported quantity in the
 article; do not sample, and do not stop early on long articles.
+
+When two statements could be reconciled only by an assumption that the
+article does not state, report them, and give in the explanation the
+assumption that would reconcile them. Do not report them when the article's
+own text, column headings, footnotes, or stated sample sizes reconcile them.
+A statement that names which studies, groups, domains, or items have a
+property presents that list as complete; report it when a table or figure in
+the article shows further members with that property.
 
 Report every finding. For Domain A and Domain B, provide:
 1. The conflicting values or statements, quoted exactly as they appear
