@@ -138,7 +138,7 @@ The strata will be sampled in priority order, with Stratum 1 completed before St
 
 The input for each article is the publisher's version-of-record PDF, which is the canonical source for both strata, and comprises the full text together with those supplementary materials that report results or describe the methods as actually applied; how it is divided across calls is one of the conditions in Section 2.5. Trial protocols, statistical analysis plans, and records of amendments supplied as supplementary materials will be removed before processing, identified from the file name where the publisher supplies them as separate files and from section headings where they are bound into a combined file, and the documents removed from each article will be recorded. A difference between such a plan and the report may reflect a legitimate amendment rather than a defect in reporting (Section 2.4). Each PDF will be processed once using the Adobe PDF Extract API. The canonical article bundle will comprise the structured JSON output with reading order and page coordinates, tables represented as both machine-readable CSV files and PNG renditions, extracted figure images, and the associated captions and surrounding text. Table-footnote markers and their footnote text will be linked where recoverable, and the table PNG and original PDF retained for verification. Extracted figure images will be supplied to a multimodal model, with the use of an additional OCR transcript varied as described in Section 2.5.
 
-The reference list is parsed separately. For every entry carrying a PubMed identifier or a digital object identifier, the record for that identifier will be retrieved from PubMed, Crossref, and OpenAlex. For an entry without one, a record will be matched to the entry as printed: first through the PubMed citation matcher (ECitMatch), from the journal, year, volume, first page, and first author; and, where that gives no unique match, through a Crossref bibliographic search, whose top candidate is accepted only when (i) its title agrees with the printed title after normalization, or reaches a similarity threshold fixed before stage 2, (ii) its first author or year agrees with the entry, and (iii) it is clearly separated from the second candidate. Because the citation matcher queries on the volume and page as printed, the title search is what reaches entries whose volume or page is itself in error. The retrieved or matched record is supplied with the canonical bundle alongside the entry as printed, together with the route by which it was obtained; entries for which no record is retrieved or matched will be marked not checkable, not as non-existent. This retrieval is deterministic and is performed once, before detection, so that models compare a claimed record against a retrieved one without querying any service at inference time.
+The reference list is parsed separately. For every entry carrying a PubMed identifier or a digital object identifier, the record for that identifier will be retrieved from PubMed, Crossref, and OpenAlex. For an entry without one, a record will be matched to the entry as printed: first through the PubMed citation matcher (ECitMatch), from the journal, year, volume, first page, and first author; and, where that gives no unique match, through a Crossref bibliographic search, whose top candidate is accepted only when (i) its title agrees with the printed title after normalization, or reaches a similarity threshold fixed before stage 2, (ii) its first author or year agrees with the entry, and (iii) it is clearly separated from the second candidate. Because the citation matcher queries on the volume and page as printed, the title search is what reaches entries whose volume or page is itself in error. The retrieved or matched record, together with the entry as printed and the route by which it was obtained, is supplied to the models in a call of its own for the citation domain, separate from the call that examines the article (Section 2.5); entries for which no record is retrieved or matched will be marked not checkable, not as non-existent. This retrieval is deterministic and is performed once, before detection, so that models compare a claimed record against a retrieved one without querying any service at inference time.
 
 ### 2.4 Target condition and adjudication of flags
 
@@ -184,25 +184,27 @@ A discrepancy that ordinary rounding cannot reconcile will not be dismissed mere
 
 To detect within-article reporting defects (Section 2.4), a detection pipeline is assembled from several large language models, each applied to every article under a set of varied conditions, with all of their output pooled as a union. Its components are specified in this section and are fixed before the main study by the development stages below.
 
-The primary detection pipeline will consist of three frontier LLMs:
+The primary detection pipeline will consist of three LLMs:
 
-- GPT-5.6 (sol; OpenAI)
+- GPT-6.1 (sol; OpenAI)
 
-- Claude Fable 5 (Anthropic)
+- Claude Opus 5.5 (Anthropic)
 
-- A leading open-weight vision-language model (provisionally Qwen3.8-27B; Alibaba)
+- An open-weight vision-language model selected by the rule below (DeepSeek V4.1 Flash 1017; DeepSeek)
 
-An open-weight model is included so that the pipeline can be re-executed with fixed model weights after proprietary model versions are deprecated, addressing reproducibility concerns. Because open-weight model rankings change rapidly, the specific model is defined by rule rather than by name. On the date the pipeline is frozen, we will select the highest-ranked model on a named public leaderboard that satisfies all of the following: weights permanently downloadable from a public repository under a licence permitting redistribution of derived annotations, such as Apache 2.0 or MIT; native vision-language capability, which is required both for the figure conditions below and for the graphical-error domain of the taxonomy (Section 2.4); a context window at least as long as the largest article bundle in the sample; and availability from at least two independent commercial inference providers, so that the study can be re-executed without self-hosting. Where candidates are otherwise comparable, a model that can be run on a single accelerator will be preferred, because it can be re-executed by a reader without cluster infrastructure. The model selected, the leaderboard consulted, and the date of selection will be recorded, and the selection may be revised if the leaderboard changes before the main study begins.
+An open-weight model is included so that the pipeline can be re-executed with fixed model weights after proprietary model versions are deprecated, addressing reproducibility concerns. Because open-weight models change rapidly, the specific model is defined by rule rather than by name. Among the models that satisfy all of the following, the model is chosen by its detection performance during development, not by its rank on a public leaderboard, because the provisional choice made by leaderboard rank (Qwen3.8-27B) found few of the known errors on the development articles: weights permanently downloadable from a public repository under a licence permitting redistribution of derived annotations, such as Apache 2.0 or MIT; native vision-language capability, which is required both for the figure conditions below and for the graphical-error domain of the taxonomy (Section 2.4); a context window at least as long as the largest article bundle in the sample; and availability from at least two independent commercial inference providers, so that the study can be re-executed without self-hosting. Where candidates perform comparably, a model that can be run on a single accelerator will be preferred, because it can be re-executed by a reader without cluster infrastructure. Each candidate is run on one inference provider and quantization, fixed for all of its runs with fallback to other providers disabled, because the same open-weight model behaved differently across providers during development. Stability across repeated runs counts alongside the number of known errors found, because a model whose output is sometimes empty or truncated cannot be evaluated or re-executed reliably. The candidates compared, their providers, their results, and the date of selection are recorded and reported. On this basis DeepSeek V4.1 Flash 1017 (MIT licence), served by a single fixed provider, was selected on 27 October 2026: it gave consistent results across three repeated runs, whereas the candidate with the highest single-run yield returned empty output on some runs.
 
 #### Conditions to be varied.
 
 The conditions below will be varied and reported. The list is a prespecified starting set rather than a closed one: further conditions may be introduced during development, and every condition tried will be reported with its retention decision.
 
-1. Prompt wording — alternative formulations of the base prompt, differing in how the domains are framed and in how the model is instructed to search. Candidate formulations are developed during the staged plan and are subject to the same retention rule as the other conditions, so more than one may be carried into the main study.
+1. Prompt wording — alternative formulations of the prompts, differing in how the domains are framed and in how the model is instructed to search. Candidate formulations are developed during the staged plan and are subject to the same retention rule as the other conditions, so more than one may be carried into the main study.
 
-1. Reasoning effort — minimal (or disabled where the model permits) versus high.
+1. Reasoning effort — compared during development from the lowest to the highest setting each model offers, and fixed at high for all models from stage 1: lower settings found fewer known errors for most models (Claude Opus 5.5 found 19 of the 58 known errors on the development articles at low effort and 47 at high), and settings above high increased cost, running time, and the number of incomplete outputs, with gains that were not consistent across models. The comparison is reported.
 
-1. Code execution — with and without access to a code execution tool. Where enabled, the tool is available for arithmetic on quantities explicitly reported in the article: percentages against their numerator and denominator, subcomponents against a stated total, a point estimate against its own interval, and the interval arithmetic required to apply the rounding tolerance. Statistical recomputation remains outside the definition (Section 2.4).
+1. Code execution — with and without access to a calculator tool. Where enabled, the tool is a local calculator, rather than a general code-execution sandbox, so that the same tool is available to every model and route: it evaluates arithmetic expressions in numbers, rounds a value, and gives the interval a printed value could have been rounded from, and every call to it is logged. It is available for arithmetic on quantities explicitly reported in the article: percentages against their numerator and denominator, subcomponents against a stated total, a point estimate against its own interval, and the interval arithmetic required to apply the rounding tolerance. Statistical recomputation remains outside the definition (Section 2.4).
+
+1. Page images — the article bundle alone versus the bundle together with an image of every page of the article.
 
 1. Input granularity — the whole article in a single call versus section-by-section calls with a final cross-referencing pass.
 
@@ -212,9 +214,19 @@ The conditions below will be varied and reported. The list is a prespecified sta
 
 1. Repetition — model output varies between runs, so each condition will be run three times per article.
 
+#### Procedures that build on earlier runs.
+
+Two procedures use the output of earlier runs, so, unlike the conditions above, they cannot be assembled after the fact from independent runs. Each is compared, as a candidate structure of the pipeline, with three independent runs using the same number of calls:
+
+- **Sequential search.** A model is run once and then twice more, each time given the internal-reporting-discrepancy and graphical-error flags of its earlier passes and asked only for discrepancies they missed.
+
+- **Cross-model search.** After the first run of every model, each model is given the flags of the other models and asked only for discrepancies they missed.
+
+Neither procedure tells a model whether an earlier flag was correct or why a further search is requested.
+
 #### Prompt.
 
-The prompt operationalizes the construct defined in Section 2.4: it states the definition of a within-article reporting defect in each of the four domains, mirrors the conditions that are not counted as a finding so that models do not generate flags that adjudication would systematically reject, enumerates the locations where the same quantity or the same attribute is reported more than once in a medical research article, and specifies a structured output that allows each flag to be located and adjudicated. The full text of the base prompt is given in **Appendix 2** and is also held as a versioned file in the study repository. Candidate formulations will be developed during development and compared as a varied condition. The version or versions retained for the main study will be frozen before it begins, tagged in the repository, and reported by identifier.
+The prompt operationalizes the construct defined in Section 2.4: it states the definition of a within-article reporting defect in each of the four domains, mirrors the conditions that are not counted as a finding so that models do not generate flags that adjudication would systematically reject, enumerates the locations where the same quantity or the same attribute is reported more than once in a medical research article, and specifies a structured output that allows each flag to be located and adjudicated. Each article is examined in two calls with separate prompts: one for internal reporting discrepancies, graphical errors, and spin, supplied with the article bundle, and one for citation errors, supplied with the reference entries and their retrieved records only (Section 2.3). The two were separated during development: supplying the bibliographic records with the article lengthened the input by up to 2.2 times, and checking an entry against an external record is a different task from finding statements within an article that cannot all be true. Each call also records what the model checked: in the article call, every section, table, figure, and supplementary document, with whether it was examined in full and, if not, why; in the citation call, any entry with a retrieved record that was not compared with it. A model may not report a domain as having no findings, or describe its check as complete, while it records any item as unchecked. Where the model opens the images itself through a tool, the log of which images it opened is kept independently of its own account. The full text of both prompts is given in **Appendix 2** and is also held as versioned files in the study repository. Candidate formulations will be developed during development and compared as a varied condition. The version or versions retained for the main study will be frozen before it begins, tagged in the repository, and reported by identifier.
 
 #### Flag pooling and deduplication.
 
@@ -230,11 +242,15 @@ The pipeline will be developed in two stages before the main study. Stage 1 uses
 
 **Stage 1: benchmark development (124 articles).** We have assembled a benchmark of 124 published articles in which errors have already been reported in the peer-reviewed literature, together with 136 item-level error records drawn from those reports. Of the 125 articles and 140 records first assembled, one article not published in English was removed with its record, and three records were removed whose only source was a publisher correction notice: correction notices are not used as sources, because the version of record now distributed incorporates the correction, so the error a notice reports is no longer present in the PDF the pipeline examines. In the domains assigned by the source reports, the benchmark spans three of the four domains: 84 records of internal reporting discrepancies, 38 of spin, and 14 of graphical errors. Each record is reassessed against the definitions of Section 2.4, which may move it to another domain; after reassessment, the benchmark comprises 92 internal reporting discrepancies, 37 spin, 6 graphical errors, and 1 other within-article concern. On adjudication, in which each first-rater judgement was verified by a second rater, 106 records were confirmed (74 internal reporting discrepancies and 32 spin), 27 were not confirmed, and 3 were classified as rounding-sensitive/indeterminate. No benchmark record is a citation error, so recall in that domain cannot be developed against previously reported cases; citation errors confirmed during stage 1 will be added to the benchmark as records discovered in this study. No previously reported graphical error was confirmed on adjudication, so recall in that domain likewise cannot be developed against previously reported cases; graphical errors confirmed during stage 1 will be added to the benchmark as records discovered in this study. Its sources include the abstract-versus-full-text assessment of Kamel and El-Sobky [@Kamel2023], the DAMASCENE within-report discrepancy catalogue [@Nowbar2014], the data-extraction discrepancies of Puljak et al. [@Puljak2020], and the 30 reports selected as containing spin in the abstract conclusion for the SPIIN trial [@Boutron2014]. The full list, with the source that reported each error, is released as described in Section 2.11 and identified in Appendix 4.
 
+Before stage 1, models, settings, and conditions were screened on six benchmark articles carrying 58 confirmed records. A setting was dropped there only for a technical failure that could not be fixed, or when it found at least ten fewer known errors than the base setting and none that the base setting missed, judged on at least two runs; the other conditions are carried into stage 1. Model tiers and settings not carried forward for cost or access, rather than by that rule, are reported as outside the scope of stage 1; cheaper tiers are evaluated in Section 2.6.
+
+In stage 1 the frontier models are run through the vendors' command-line agents in non-interactive mode (Codex for GPT-6.1 and Claude Code for Claude Opus 5.5), with their tools restricted to reading the supplied files and, under the calculator condition, the calculator; the open-weight model is run through its provider's API. A result obtained through a command-line agent reflects the model together with its agent, so a subset of articles will also be run through the vendor APIs to check that the results agree, and the route used in the main study will be fixed and reported before it begins.
+
 The pipeline will be run on these articles under every condition, and every flag will be adjudicated as in Section 2.4, including flags that do not correspond to a previously reported error. Each error already reported in the source literature will be checked against the version-of-record PDF by one rater (HS), and that judgement verified by a second rater; disagreements will be resolved through discussion and, if consensus cannot be reached, by a third rater (YK or KA). To make this check tractable, the locations and verbatim text of the values or statements a reported error involves, any arithmetic needed to assess it, and a candidate taxonomy category will be drafted with the assistance of a large language model (Claude, Anthropic). A drafted quotation is kept only if it matches the text of the PDF. The rater verifies every draft against the version-of-record PDF and alone makes the decision, assigns the category, and grades severity; no decision is drafted. Confirmed findings of this kind are expected, since most source reports examined only one domain or one part of the article. They will be added to the benchmark as additional item-level records, marked as discovered in this study rather than reported in the source literature, so that the benchmark used for the retention decision and for the configuration evaluation of Section 2.6 reflects everything confirmed to be present. The number of records added in this way will be reported, by domain. Candidates that are not confirmed will be categorized as rounding-compatible, rounding-sensitive/indeterminate, unit conversion, omission misread as a discrepancy, misread table structure, apparent discrepancy reconciled elsewhere in the article, reported error not present in the version of record, out-of-scope document, or other, and this classification will inform refinement of the prompt's exclusion clauses.
 
 All 124 articles are used for development, with no subset held out, so performance measured on this benchmark is **not reported as an estimate of pipeline accuracy**. Two further properties would make such an estimate unsafe in any case: every article was selected because an error had already been found in it, so the prevalence of findings far exceeds that of the study population; and several source reports are public together with their labels, including the SPIIN supplement and the DAMASCENE dataset, so contamination of model training data cannot be excluded. Clean estimates come only from stage 2 and the main study.
 
-**Stage 2: pilot in the study population (20 articles).** The benchmark articles are error-enriched and predate the sampling frame, so configurations retained in stage 1 will be re-checked against the study's own population. This stage also gives the only estimate of flags per article at the prevalence of the study population, on which the feasibility of the planned adjudication depends. The retained conditions (Section 2.5) will be applied to the 10 articles per stratum set aside at sampling (Section 2.2), which are drawn by the same procedure as the main sample and excluded from it. Stage 2 will fix, before the main study: (i) which conditions are retained; (ii) the final base prompt; (iii) the final deduplication rule; and (iv) promotion of recurring types from the residual "other" categories of Appendix 3 to named taxonomy categories.
+**Stage 2: pilot in the study population (20 articles).** The benchmark articles are error-enriched and predate the sampling frame, so configurations retained in stage 1 will be re-checked against the study's own population. This stage also gives the only estimate of flags per article at the prevalence of the study population, on which the feasibility of the planned adjudication depends. The retained conditions (Section 2.5) will be applied to the 10 articles per stratum set aside at sampling (Section 2.2), which are drawn by the same procedure as the main sample and excluded from it. Stage 2 will fix, before the main study: (i) which conditions are retained; (ii) the final prompts; (iii) the final deduplication rule; and (iv) promotion of recurring types from the residual "other" categories of Appendix 3 to named taxonomy categories.
 
 **The main study.** The retained conditions are applied to all sampled articles as described in Sections 2.3 to 2.6.
 
@@ -296,7 +312,7 @@ The study analyses published documents only, involves no human participants or p
 
 - **Languages/libraries:** Python (pydantic, typer, pandas, numpy, scikit-learn, httpx).
 
-- **Model access and execution:** all runs will be executed programmatically as batch jobs from a Python script against the vendors' APIs, not through interactive chat interfaces. The code execution tool will be enabled or disabled according to the assigned condition; when enabled, computation is performed within the provider's sandbox during inference. All requests, responses, tool invocations, model versions, parameters, timestamps, and token counts will be logged.
+- **Model access and execution:** all runs will be executed programmatically from Python scripts, not through interactive chat interfaces: through the vendors' command-line agents in non-interactive mode or through the APIs, as set out in Section 2.5. The calculator is a local tool supplied in the same form on every route, as a Model Context Protocol server to the command-line agents and through function calling on the APIs, and is enabled or disabled according to the assigned condition. All requests, responses, tool invocations, model versions, inference providers, parameters, timestamps, and token counts will be logged.
 
 ### 2.11 Data and code availability
 
@@ -354,17 +370,17 @@ NOT ("Case Reports"[pt] OR Letter[pt] OR Comment[pt] OR Editorial[pt]
 
 License status is not expressible as a PubMed query and is resolved after retrieval, as described in Section 2.2.
 
-## Appendix 2. Base detection prompt
+## Appendix 2. Detection prompts
 
-This is the base prompt as of protocol publication. Wording may be refined during the pilot study and will be frozen before the main study; the frozen version will be tagged in the study repository, which also holds this text as a versioned file.
+These are the prompts as of this amendment. Each article is examined in two calls: the first prompt is supplied with the article bundle and covers Domains A to C; the second is supplied with the reference entries and the records retrieved for them, and covers Domain D. Wording may be refined during development and will be frozen before the main study; the frozen versions will be tagged in the study repository, which also holds this text as versioned files.
+
+### Domains A to C
 
 ```text
 You are checking a medical research article for defects that can be
-established from the article itself, together with the bibliographic
-records supplied for its reference entries. Use no other outside
-information.
+established from the article itself. Use no other outside information.
 
-Report findings in four domains.
+Report findings in three domains.
 
 DOMAIN A - INTERNAL REPORTING DISCREPANCIES
 Statements anywhere in the article (abstract, main text, tables, figures,
@@ -452,30 +468,6 @@ outcomes. Reporting or emphasising a statistically significant primary
 outcome, or such an analysis of it, is not spin. Report spin as present or
 absent for the article as a whole, with the supporting quotations.
 
-DOMAIN D - CITATION ERRORS
-For each reference entry, the bundle supplies the record retrieved for it:
-for an entry carrying a PubMed identifier or a digital object identifier,
-the record for that identifier from PubMed, Crossref, and OpenAlex; for an
-entry without one, the record matched to the entry as printed, with the
-route by which it was matched. Entries for which no record could be
-retrieved or matched are not checked. Compare the entry as printed against
-the retrieved record. Report an entry when:
-- the retrieved record is a different publication from the one the entry
-  describes;
-- the PubMed identifier and the digital object identifier in the same entry
-  resolve to different publications;
-- the title claimed by the entry matches no retrieved record and its
-  identifiers resolve to unrelated publications;
-- the retrieved record is the publication the entry describes, but the volume,
-  issue, page range, year, journal name, or author list disagrees with it.
-The first three apply only to entries carrying an identifier; for an entry
-without one, only the last applies.
-
-Do not flag differences that are formatting alone: abbreviated journal names,
-truncated or informally shortened titles, "et al" standing in for a full author
-list, or differences in punctuation, capitalization, or diacritics. Do not judge
-whether a cited work supports the claim made of it.
-
 DO NOT FLAG
 - Differences compatible under ordinary rounding based on the displayed
   precision. If ordinary rounding cannot reconcile the values but an
@@ -485,9 +477,8 @@ DO NOT FLAG
   recalculating a p-value from a test statistic and degrees of freedom).
   Deterministic checking is limited to addition, subtraction, multiplication,
   and division of quantities explicitly reported in the article.
-- Disagreements with external sources or with your own knowledge, other
-  than the supplied bibliographic records used in Domain D. In particular, do not judge
-  the risk of bias or the certainty of the evidence.
+- Disagreements with external sources or with your own knowledge. In
+  particular, do not judge the risk of bias or the certainty of the evidence.
 - Differences between the article and an appended trial protocol,
   statistical analysis plan, or record of amendments, if one is included.
   Planned and reported methods can differ legitimately. This applies only to
@@ -539,11 +530,61 @@ significant; the assessability judgement (not assessable, assessed in full,
 or assessed in part); the verdict (spin present or absent); and the quotations supporting
 it.
 
-For Domain D, provide the reference number as printed, the taxonomy category,
-the field or fields that disagree, the entry as printed, and the retrieved
-record.
+Record what you checked. List every section of the main text, every table and
+every figure (numbered as in the article), and every supplementary document,
+and state for each whether you checked it in full. For anything you did not
+check in full, say why. Record an item as checked only if you examined it;
+do not infer that an item is free of findings from the items you did check.
 
 If you find no findings in a domain, state this explicitly for that domain.
+State that a domain has no findings only if you checked every item that could
+bear on it. If any item is recorded as not checked, do not describe the check
+as complete: say which items were checked and which remain unchecked.
+```
+
+### Domain D
+
+```text
+You are checking the reference list of a medical research article against
+the bibliographic records retrieved for its entries. Use no other outside
+information.
+
+Report findings in one domain.
+
+DOMAIN D - CITATION ERRORS
+For each reference entry, the input supplies the entry as printed and the
+record retrieved for it: for an entry carrying a PubMed identifier or a
+digital object identifier, the record for that identifier from PubMed,
+Crossref, and OpenAlex; for an entry without one, the record matched to the
+entry as printed, with the route by which it was matched. Entries for which no record could be
+retrieved or matched are not checked. Compare the entry as printed against
+the retrieved record. Report an entry when:
+- the retrieved record is a different publication from the one the entry
+  describes;
+- the PubMed identifier and the digital object identifier in the same entry
+  resolve to different publications;
+- the title claimed by the entry matches no retrieved record and its
+  identifiers resolve to unrelated publications;
+- the retrieved record is the publication the entry describes, but the volume,
+  issue, page range, year, journal name, or author list disagrees with it.
+The first three apply only to entries carrying an identifier; for an entry
+without one, only the last applies.
+
+Do not flag differences that are formatting alone: abbreviated journal names,
+truncated or informally shortened titles, "et al" standing in for a full author
+list, or differences in punctuation, capitalization, or diacritics. Do not judge
+whether a cited work supports the claim made of it.
+
+Examine every reference entry; do not sample, and do not stop early on long
+reference lists.
+
+Report every finding. For each, provide the reference number as printed, the
+taxonomy category, the field or fields that disagree, the entry as printed,
+and the retrieved record.
+
+List the reference numbers of any entries with a retrieved record that you did
+not compare against it. If you find no findings, state this explicitly, and
+state it only if you compared every entry with a retrieved record.
 ```
 
 ## Appendix 3. Taxonomy of within-article reporting defects

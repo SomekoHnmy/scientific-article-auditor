@@ -7,7 +7,7 @@ Writes to protocol/build/, which is not tracked:
 Needs pandoc 3 on PATH, or its location in the PANDOC environment variable.
 Styles and page setup come from reference.docx, which also marks the output as
 current-format Word so that it does not open in compatibility mode.
-Stops if prompt/base_prompt.txt no longer matches Appendix 2 of either protocol.
+Stops if the prompt files in prompt/ no longer match Appendix 2 of either protocol.
 """
 import os
 import shutil
@@ -17,7 +17,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE / 'build'
-PROMPT = HERE.parent / 'prompt' / 'base_prompt.txt'
+# the prompts in the order Appendix 2 gives them
+PROMPTS = (HERE.parent / 'prompt' / 'prompt_domains_a_c.txt', HERE.parent / 'prompt' / 'prompt_domain_d.txt')
 REFERENCE = HERE / 'reference.docx'
 SOURCES = ('protocol', 'protocol-full')
 
@@ -26,10 +27,16 @@ def read(path):
     return path.read_text(encoding='utf-8').replace('\r\n', '\n')
 
 
-def appendix2_prompt(text):
+def appendix2_prompts(text):
     start = text.index('## Appendix 2.')
-    body = text.index('\n', text.index('```text', start)) + 1
-    return text[body:text.index('```', body)]
+    end = text.index('## Appendix 3.', start)
+    prompts, pos = [], start
+    while (fence := text.find('```text', pos, end)) != -1:
+        body = text.index('\n', fence) + 1
+        close = text.index('```', body)
+        prompts.append(text[body:close])
+        pos = close + 3
+    return prompts
 
 
 def main():
@@ -37,10 +44,10 @@ def main():
     if not pandoc:
         sys.exit('pandoc not found: put it on PATH or set PANDOC')
 
-    prompt = read(PROMPT)
+    prompts = [read(p) for p in PROMPTS]
     for name in SOURCES:
-        if appendix2_prompt(read(HERE / f'{name}.md')) != prompt:
-            sys.exit(f'prompt/base_prompt.txt differs from Appendix 2 of {name}.md')
+        if appendix2_prompts(read(HERE / f'{name}.md')) != prompts:
+            sys.exit(f'the prompt files differ from Appendix 2 of {name}.md')
 
     OUT.mkdir(exist_ok=True)
     for name in SOURCES:

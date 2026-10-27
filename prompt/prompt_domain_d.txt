@@ -1,0 +1,40 @@
+You are checking the reference list of a medical research article against
+the bibliographic records retrieved for its entries. Use no other outside
+information.
+
+Report findings in one domain.
+
+DOMAIN D - CITATION ERRORS
+For each reference entry, the input supplies the entry as printed and the
+record retrieved for it: for an entry carrying a PubMed identifier or a
+digital object identifier, the record for that identifier from PubMed,
+Crossref, and OpenAlex; for an entry without one, the record matched to the
+entry as printed, with the route by which it was matched. Entries for which no record could be
+retrieved or matched are not checked. Compare the entry as printed against
+the retrieved record. Report an entry when:
+- the retrieved record is a different publication from the one the entry
+  describes;
+- the PubMed identifier and the digital object identifier in the same entry
+  resolve to different publications;
+- the title claimed by the entry matches no retrieved record and its
+  identifiers resolve to unrelated publications;
+- the retrieved record is the publication the entry describes, but the volume,
+  issue, page range, year, journal name, or author list disagrees with it.
+The first three apply only to entries carrying an identifier; for an entry
+without one, only the last applies.
+
+Do not flag differences that are formatting alone: abbreviated journal names,
+truncated or informally shortened titles, "et al" standing in for a full author
+list, or differences in punctuation, capitalization, or diacritics. Do not judge
+whether a cited work supports the claim made of it.
+
+Examine every reference entry; do not sample, and do not stop early on long
+reference lists.
+
+Report every finding. For each, provide the reference number as printed, the
+taxonomy category, the field or fields that disagree, the entry as printed,
+and the retrieved record.
+
+List the reference numbers of any entries with a retrieved record that you did
+not compare against it. If you find no findings, state this explicitly, and
+state it only if you compared every entry with a retrieved record.

@@ -92,7 +92,7 @@ Animal-only studies, narrative reviews, case reports, letters, study protocols, 
 
 ### Article processing
 
- Each PDF is processed once with the Adobe PDF Extract API into a bundle of structured JSON with reading order and page coordinates, tables as machine-readable CSV and PNG renditions, figure images, and captions. For every reference entry carrying a PubMed identifier or a digital object identifier, the record for that identifier is retrieved from PubMed, Crossref, and OpenAlex; for an entry without one, a record is matched to the entry as printed, through the PubMed citation matcher and then a Crossref bibliographic search accepted only under prespecified agreement rules. The record is supplied with the bundle together with the route by which it was obtained; entries for which none is retrieved or matched are marked not checkable. Supplementary materials are included when they report results or describe the methods as actually applied. Appended trial protocols, statistical analysis plans, and records of amendments are identified from the file name or section heading and removed before processing.
+ Each PDF is processed once with the Adobe PDF Extract API into a bundle of structured JSON with reading order and page coordinates, tables as machine-readable CSV and PNG renditions, figure images, and captions. For every reference entry carrying a PubMed identifier or a digital object identifier, the record for that identifier is retrieved from PubMed, Crossref, and OpenAlex; for an entry without one, a record is matched to the entry as printed, through the PubMed citation matcher and then a Crossref bibliographic search accepted only under prespecified agreement rules. The record, with the entry as printed and the route by which it was obtained, is supplied in a call of its own for the citation domain; entries for which none is retrieved or matched are marked not checkable. Supplementary materials are included when they report results or describe the methods as actually applied. Appended trial protocols, statistical analysis plans, and records of amendments are identified from the file name or section heading and removed before processing.
 
 ### Target condition
 
@@ -111,11 +111,11 @@ To detect within-article reporting defects, a detection pipeline is assembled fr
 
 #### Models
 
-The pipeline uses three frontier models: GPT-5.6 (OpenAI), Claude Fable 5 (Anthropic), and an open-weight vision-language model (provisionally Qwen3.8-27B). The open-weight arm allows re-execution with fixed weights after proprietary versions are deprecated, and was selected by a prespecified rule requiring downloadable weights and native vision-language capability.
+The pipeline uses three models: GPT-6.1 (sol; OpenAI), Claude Opus 5.5 (Anthropic), and an open-weight vision-language model, DeepSeek V4.1 Flash 1017. The open-weight arm allows re-execution with fixed weights after proprietary versions are deprecated. It was chosen by its detection performance and stability during development among models meeting prespecified criteria — downloadable weights under a licence permitting redistribution of derived annotations, native vision-language capability, and availability from at least two commercial providers — and is run on one fixed inference provider.
 
 #### Conditions varied
 
-Conditions varied include prompt wording; reasoning effort; access to a code execution tool; input granularity; supplement handling; figure handling; and repetition, with three runs of each condition per article. Further conditions may be added during development. Every condition tried is reported with its retention decision; those contributing no confirmed finding which other conditions miss are dropped, and what is retained is frozen before the main study. The base prompt is given in Appendix 2.
+Conditions varied include prompt wording; access to a local calculator for arithmetic on reported quantities; page images supplied with the bundle; input granularity; supplement handling; figure handling; and repetition, with three runs of each condition per article. Reasoning effort is fixed at high, after development showed lower settings to miss known errors for most models and higher ones to add cost and incomplete outputs, with gains that were not consistent across models. Two procedures that build on earlier runs are compared with independent runs: a sequential search, in which a model is given its own earlier flags and asked only for further discrepancies, and a cross-model search, in which each model is given the other models' flags. Further conditions may be added during development. Every condition tried is reported with its retention decision; those contributing no confirmed finding which other conditions miss are dropped, and what is retained is frozen before the main study. Each article is examined in two calls, one for Domains A to C with the article bundle and one for Domain D with the reference entries and their retrieved records, and each call records which parts of its input the model checked; the prompts are given in Appendix 2.
 
 #### Flag pooling
 
@@ -123,7 +123,7 @@ Flags from all models, conditions, and runs are pooled as a union, and every ori
 
 #### Pipeline development
 
-Two stages precede the main study. **Stage 1** develops the pipeline on a benchmark of 124 published articles carrying 136 item-level errors already reported in the peer-reviewed literature, spanning three of the four domains as assigned by the source reports (84 internal reporting discrepancies, 38 spin, 14 graphical errors; after reassessment against this study’s definitions, 92, 37 and 6, with 1 other within-article concern, of which 106 were confirmed on adjudication); no benchmark record is a citation error, and no previously reported graphical error was confirmed. An article not published in English and records whose only source was a publisher correction notice, which the version of record already incorporates, were excluded. Every flag, including those matching no previously reported error, is assessed independently by two raters, with disagreements resolved by discussion and otherwise by a third rater; those confirmed are added to the benchmark as records discovered in this study. Each error already reported in the source literature is checked against the version-of-record PDF by one rater (HS) and the result verified by a second, with disagreements resolved in the same way. Locations, verbatim quotations, arithmetic, and a candidate category are drafted with the assistance of a large language model and verified by the rater, who alone makes each decision. **Stage 2** re-checks the retained configurations on the 20 articles set aside at sampling, ten per stratum, fixing the conditions, the prompt, and the deduplication rule before the main study, and giving the only estimate of flags per article at the prevalence of the study population.
+Two stages precede the main study. **Stage 1** develops the pipeline on a benchmark of 124 published articles carrying 136 item-level errors already reported in the peer-reviewed literature, spanning three of the four domains as assigned by the source reports (84 internal reporting discrepancies, 38 spin, 14 graphical errors; after reassessment against this study’s definitions, 92, 37 and 6, with 1 other within-article concern, of which 106 were confirmed on adjudication); no benchmark record is a citation error, and no previously reported graphical error was confirmed. An article not published in English and records whose only source was a publisher correction notice, which the version of record already incorporates, were excluded. Every flag, including those matching no previously reported error, is assessed independently by two raters, with disagreements resolved by discussion and otherwise by a third rater; those confirmed are added to the benchmark as records discovered in this study. Each error already reported in the source literature is checked against the version-of-record PDF by one rater (HS) and the result verified by a second, with disagreements resolved in the same way. Locations, verbatim quotations, arithmetic, and a candidate category are drafted with the assistance of a large language model and verified by the rater, who alone makes each decision. In stage 1 the frontier models are run through the vendors' command-line agents in non-interactive mode and the open-weight model through its provider's API; a subset of articles is also run through the vendor APIs to check that the routes agree, and the route of the main study is fixed before it begins. **Stage 2** re-checks the retained configurations on the 20 articles set aside at sampling, ten per stratum, fixing the conditions, the prompt, and the deduplication rule before the main study, and giving the only estimate of flags per article at the prevalence of the study population.
 
 ### Confirmation of flags
 
@@ -199,17 +199,17 @@ NOT ("Case Reports"[pt] OR Letter[pt] OR Comment[pt] OR Editorial[pt]
 
 License status is not expressible as a PubMed query and is resolved after retrieval, as described in Section 2.2.
 
-## Appendix 2. Base detection prompt
+## Appendix 2. Detection prompts
 
-This is the base prompt as of protocol publication. Wording may be refined during the pilot study and will be frozen before the main study; the frozen version will be tagged in the study repository, which also holds this text as a versioned file.
+These are the prompts as of this amendment. Each article is examined in two calls: the first prompt is supplied with the article bundle and covers Domains A to C; the second is supplied with the reference entries and the records retrieved for them, and covers Domain D. Wording may be refined during development and will be frozen before the main study; the frozen versions will be tagged in the study repository, which also holds this text as versioned files.
+
+### Domains A to C
 
 ```text
 You are checking a medical research article for defects that can be
-established from the article itself, together with the bibliographic
-records supplied for its reference entries. Use no other outside
-information.
+established from the article itself. Use no other outside information.
 
-Report findings in four domains.
+Report findings in three domains.
 
 DOMAIN A - INTERNAL REPORTING DISCREPANCIES
 Statements anywhere in the article (abstract, main text, tables, figures,
@@ -297,30 +297,6 @@ outcomes. Reporting or emphasising a statistically significant primary
 outcome, or such an analysis of it, is not spin. Report spin as present or
 absent for the article as a whole, with the supporting quotations.
 
-DOMAIN D - CITATION ERRORS
-For each reference entry, the bundle supplies the record retrieved for it:
-for an entry carrying a PubMed identifier or a digital object identifier,
-the record for that identifier from PubMed, Crossref, and OpenAlex; for an
-entry without one, the record matched to the entry as printed, with the
-route by which it was matched. Entries for which no record could be
-retrieved or matched are not checked. Compare the entry as printed against
-the retrieved record. Report an entry when:
-- the retrieved record is a different publication from the one the entry
-  describes;
-- the PubMed identifier and the digital object identifier in the same entry
-  resolve to different publications;
-- the title claimed by the entry matches no retrieved record and its
-  identifiers resolve to unrelated publications;
-- the retrieved record is the publication the entry describes, but the volume,
-  issue, page range, year, journal name, or author list disagrees with it.
-The first three apply only to entries carrying an identifier; for an entry
-without one, only the last applies.
-
-Do not flag differences that are formatting alone: abbreviated journal names,
-truncated or informally shortened titles, "et al" standing in for a full author
-list, or differences in punctuation, capitalization, or diacritics. Do not judge
-whether a cited work supports the claim made of it.
-
 DO NOT FLAG
 - Differences compatible under ordinary rounding based on the displayed
   precision. If ordinary rounding cannot reconcile the values but an
@@ -330,9 +306,8 @@ DO NOT FLAG
   recalculating a p-value from a test statistic and degrees of freedom).
   Deterministic checking is limited to addition, subtraction, multiplication,
   and division of quantities explicitly reported in the article.
-- Disagreements with external sources or with your own knowledge, other
-  than the supplied bibliographic records used in Domain D. In particular, do not judge
-  the risk of bias or the certainty of the evidence.
+- Disagreements with external sources or with your own knowledge. In
+  particular, do not judge the risk of bias or the certainty of the evidence.
 - Differences between the article and an appended trial protocol,
   statistical analysis plan, or record of amendments, if one is included.
   Planned and reported methods can differ legitimately. This applies only to
@@ -384,11 +359,61 @@ significant; the assessability judgement (not assessable, assessed in full,
 or assessed in part); the verdict (spin present or absent); and the quotations supporting
 it.
 
-For Domain D, provide the reference number as printed, the taxonomy category,
-the field or fields that disagree, the entry as printed, and the retrieved
-record.
+Record what you checked. List every section of the main text, every table and
+every figure (numbered as in the article), and every supplementary document,
+and state for each whether you checked it in full. For anything you did not
+check in full, say why. Record an item as checked only if you examined it;
+do not infer that an item is free of findings from the items you did check.
 
 If you find no findings in a domain, state this explicitly for that domain.
+State that a domain has no findings only if you checked every item that could
+bear on it. If any item is recorded as not checked, do not describe the check
+as complete: say which items were checked and which remain unchecked.
+```
+
+### Domain D
+
+```text
+You are checking the reference list of a medical research article against
+the bibliographic records retrieved for its entries. Use no other outside
+information.
+
+Report findings in one domain.
+
+DOMAIN D - CITATION ERRORS
+For each reference entry, the input supplies the entry as printed and the
+record retrieved for it: for an entry carrying a PubMed identifier or a
+digital object identifier, the record for that identifier from PubMed,
+Crossref, and OpenAlex; for an entry without one, the record matched to the
+entry as printed, with the route by which it was matched. Entries for which no record could be
+retrieved or matched are not checked. Compare the entry as printed against
+the retrieved record. Report an entry when:
+- the retrieved record is a different publication from the one the entry
+  describes;
+- the PubMed identifier and the digital object identifier in the same entry
+  resolve to different publications;
+- the title claimed by the entry matches no retrieved record and its
+  identifiers resolve to unrelated publications;
+- the retrieved record is the publication the entry describes, but the volume,
+  issue, page range, year, journal name, or author list disagrees with it.
+The first three apply only to entries carrying an identifier; for an entry
+without one, only the last applies.
+
+Do not flag differences that are formatting alone: abbreviated journal names,
+truncated or informally shortened titles, "et al" standing in for a full author
+list, or differences in punctuation, capitalization, or diacritics. Do not judge
+whether a cited work supports the claim made of it.
+
+Examine every reference entry; do not sample, and do not stop early on long
+reference lists.
+
+Report every finding. For each, provide the reference number as printed, the
+taxonomy category, the field or fields that disagree, the entry as printed,
+and the retrieved record.
+
+List the reference numbers of any entries with a retrieved record that you did
+not compare against it. If you find no findings, state this explicitly, and
+state it only if you compared every entry with a retrieved record.
 ```
 
 ## Appendix 3. Taxonomy of within-article reporting defects

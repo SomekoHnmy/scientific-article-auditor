@@ -14,7 +14,8 @@ Large language model–based auditing of published medical research articles for
 | [`protocol/figures/`](protocol/figures/) | Study workflow figure and its draw.io source |
 | [`protocol/build.py`](protocol/build.py) | Builds Word versions of the protocol |
 | `protocol/reference.docx` | Word styles and page setup used by the build |
-| [`prompt/base_prompt.txt`](prompt/base_prompt.txt) | Base detection prompt (Appendix 2 of the protocol) |
+| [`prompt/prompt_domains_a_c.txt`](prompt/prompt_domains_a_c.txt) | Detection prompt for Domains A to C, supplied with the article (Appendix 2 of the protocol) |
+| [`prompt/prompt_domain_d.txt`](prompt/prompt_domain_d.txt) | Detection prompt for Domain D, supplied with the reference entries and their retrieved records (Appendix 2) |
 | [`benchmark/schema/`](benchmark/schema/) | Synthetic article with planted errors, showing how findings are recorded |
 
 ## Building the protocol
@@ -23,7 +24,7 @@ Large language model–based auditing of published medical research articles for
 python protocol/build.py
 ```
 
-This needs pandoc 3 on `PATH`, or its location in the `PANDOC` environment variable. It writes `protocol.docx` and `protocol-full.docx` to `protocol/build/`, which is not tracked. It stops if `prompt/base_prompt.txt` no longer matches Appendix 2 of the protocol.
+This needs pandoc 3 on `PATH`, or its location in the `PANDOC` environment variable. It writes `protocol.docx` and `protocol-full.docx` to `protocol/build/`, which is not tracked. It stops if the prompt files in `prompt/` no longer match Appendix 2 of the protocol.
 
 ## Benchmark schema demonstration
 

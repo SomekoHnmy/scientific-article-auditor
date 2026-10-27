@@ -1,9 +1,7 @@
 You are checking a medical research article for defects that can be
-established from the article itself, together with the bibliographic
-records supplied for its reference entries. Use no other outside
-information.
+established from the article itself. Use no other outside information.
 
-Report findings in four domains.
+Report findings in three domains.
 
 DOMAIN A - INTERNAL REPORTING DISCREPANCIES
 Statements anywhere in the article (abstract, main text, tables, figures,
@@ -91,30 +89,6 @@ outcomes. Reporting or emphasising a statistically significant primary
 outcome, or such an analysis of it, is not spin. Report spin as present or
 absent for the article as a whole, with the supporting quotations.
 
-DOMAIN D - CITATION ERRORS
-For each reference entry, the bundle supplies the record retrieved for it:
-for an entry carrying a PubMed identifier or a digital object identifier,
-the record for that identifier from PubMed, Crossref, and OpenAlex; for an
-entry without one, the record matched to the entry as printed, with the
-route by which it was matched. Entries for which no record could be
-retrieved or matched are not checked. Compare the entry as printed against
-the retrieved record. Report an entry when:
-- the retrieved record is a different publication from the one the entry
-  describes;
-- the PubMed identifier and the digital object identifier in the same entry
-  resolve to different publications;
-- the title claimed by the entry matches no retrieved record and its
-  identifiers resolve to unrelated publications;
-- the retrieved record is the publication the entry describes, but the volume,
-  issue, page range, year, journal name, or author list disagrees with it.
-The first three apply only to entries carrying an identifier; for an entry
-without one, only the last applies.
-
-Do not flag differences that are formatting alone: abbreviated journal names,
-truncated or informally shortened titles, "et al" standing in for a full author
-list, or differences in punctuation, capitalization, or diacritics. Do not judge
-whether a cited work supports the claim made of it.
-
 DO NOT FLAG
 - Differences compatible under ordinary rounding based on the displayed
   precision. If ordinary rounding cannot reconcile the values but an
@@ -124,9 +98,8 @@ DO NOT FLAG
   recalculating a p-value from a test statistic and degrees of freedom).
   Deterministic checking is limited to addition, subtraction, multiplication,
   and division of quantities explicitly reported in the article.
-- Disagreements with external sources or with your own knowledge, other
-  than the supplied bibliographic records used in Domain D. In particular, do not judge
-  the risk of bias or the certainty of the evidence.
+- Disagreements with external sources or with your own knowledge. In
+  particular, do not judge the risk of bias or the certainty of the evidence.
 - Differences between the article and an appended trial protocol,
   statistical analysis plan, or record of amendments, if one is included.
   Planned and reported methods can differ legitimately. This applies only to
@@ -178,8 +151,13 @@ significant; the assessability judgement (not assessable, assessed in full,
 or assessed in part); the verdict (spin present or absent); and the quotations supporting
 it.
 
-For Domain D, provide the reference number as printed, the taxonomy category,
-the field or fields that disagree, the entry as printed, and the retrieved
-record.
+Record what you checked. List every section of the main text, every table and
+every figure (numbered as in the article), and every supplementary document,
+and state for each whether you checked it in full. For anything you did not
+check in full, say why. Record an item as checked only if you examined it;
+do not infer that an item is free of findings from the items you did check.
 
 If you find no findings in a domain, state this explicitly for that domain.
+State that a domain has no findings only if you checked every item that could
+bear on it. If any item is recorded as not checked, do not describe the check
+as complete: say which items were checked and which remain unchecked.
