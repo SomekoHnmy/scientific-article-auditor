@@ -126,11 +126,11 @@ We will sample articles from two strata defined by rule.
 
 Operationalization of eligibility. Article retrieval will be implemented through the NCBI E-utilities and PMC APIs. The full PubMed search strategies for both strata are given in **Appendix 1**.
 
-Licence is not expressible as a PubMed query; retrieved PMCIDs will be passed to the PMC OA Web Service (oa.fcgi) or matched against the PMC OA file list, and only records whose licence field indicates CC BY or CC0 retained. The per-journal cap is applied after this step. Retraction status will be rechecked when eligibility is finalized.
+Licence is not expressible as a PubMed query; for each retrieved PMCID, the open-access status and licence will be taken from the article's metadata in the PMC Cloud Service, which replaced the PMC OA Web Service (oa.fcgi) in August 2026, and only records whose licence is CC BY or CC0 retained. A record for which PMC holds only an author manuscript is excluded, since the publisher PDF is then not available from PMC. The per-journal cap is applied after this step. Retraction status will be rechecked when eligibility is finalized.
 
-Two criteria cannot be expressed reliably in either API and will be applied by manual screening: (i) animal-only studies, and (ii) study protocols not indexed under "Clinical Trial Protocol"[pt]. The number of records screened and excluded at each step will be reported in a flow diagram.
+Three criteria cannot be expressed reliably in either API and will be applied by manual screening: (i) animal-only studies, (ii) study protocols not indexed under "Clinical Trial Protocol"[pt], and (iii) records that are not original research articles although indexed as journal articles, such as commentaries and perspectives. The number of records screened and excluded at each step will be reported in a flow diagram.
 
-Within each stratum, candidate records will be drawn in a reproducible random order without replacement and screened sequentially. An ineligible record, or in Stratum 2 a record drawn after its journal has reached the per-journal cap, will be skipped and replaced by the next draw. Drawing continues until 160 eligible articles have been accepted in each stratum. Ten per stratum will then be selected at random, assigned to the stage 2 pilot (Section 2.5), and excluded from the main sample; the remaining 150 per stratum constitute the main sample of 300 articles. The main-sample size was determined by feasibility of human adjudication. Because the number of flags per article at the prevalence of the study population is not known in advance, this size may be revised once stage 2 has estimated it; any revision will be fixed and recorded before the main study begins, and the sample size used will be reported.
+Within each stratum, candidate records will be drawn in a reproducible random order without replacement and screened sequentially: the PubMed identifiers retrieved for the stratum are sorted in ascending order and shuffled by a pseudorandom number generator under the fixed seed 20261117. An ineligible record, or in Stratum 2 a record drawn after its journal has reached the per-journal cap, will be skipped and replaced by the next draw. Drawing continues until 160 eligible articles have been accepted in each stratum. Ten per stratum will then be selected at random, assigned to the stage 2 pilot (Section 2.5), and excluded from the main sample; the remaining 150 per stratum constitute the main sample of 300 articles. The main-sample size was determined by feasibility of human adjudication. Because the number of flags per article at the prevalence of the study population is not known in advance, this size may be revised once stage 2 has estimated it; any revision will be fixed and recorded before the main study begins, and the sample size used will be reported.
 
 The strata will be sampled in priority order, with Stratum 1 completed before Stratum 2. If an article selected for Stratum 2 has already been included in Stratum 1, it will be retained in Stratum 1, excluded from Stratum 2, and replaced by the next eligible Stratum 2 draw.
 
@@ -334,7 +334,7 @@ Appendices 1 to 3 are reproduced below. Appendix 4 is held as a separate file in
 
 ## Appendix 1. PubMed search strategies
 
-Both strategies will be executed through the NCBI E-utilities `esearch` endpoint against PubMed. The date of execution and the number of records retrieved will be recorded.
+Both strategies will be executed through the NCBI E-utilities `esearch` endpoint against PubMed. The date of execution and the number of records retrieved will be recorded. Two terms were brought up to date before the searches were first run, because PubMed no longer recognises their earlier forms: the publication type Retraction of Publication, now Retraction Notice (under the earlier name the term is dropped from the search without effect), and the PMC Open Access filter, now "pubmed pmc open access"[filter] (under the earlier name the search retrieves no records).
 
 **Stratum 1 (top-ranked journals).**
 
@@ -355,17 +355,17 @@ AND english[lang]
 NOT ("Case Reports"[pt] OR Letter[pt] OR Comment[pt] OR Editorial[pt]
      OR (Review[pt] NOT systematic[sb]) OR News[pt]
      OR "Published Erratum"[pt] OR "Clinical Trial Protocol"[pt]
-     OR Retraction of Publication[pt] OR Retracted Publication[pt])
+     OR "Retraction Notice"[pt] OR "Retracted Publication"[pt])
 ```
 
 **Stratum 2 (open-access benchmark stratum).**
 
 ```text
-2025[dp] AND medline[sb] AND "pmc open access"[filter] AND english[lang]
+2025[dp] AND medline[sb] AND "pubmed pmc open access"[filter] AND english[lang]
 NOT ("Case Reports"[pt] OR Letter[pt] OR Comment[pt] OR Editorial[pt]
      OR (Review[pt] NOT systematic[sb]) OR News[pt]
      OR "Published Erratum"[pt] OR "Clinical Trial Protocol"[pt]
-     OR Retraction of Publication[pt] OR Retracted Publication[pt])
+     OR "Retraction Notice"[pt] OR "Retracted Publication"[pt])
 ```
 
 License status is not expressible as a PubMed query and is resolved after retrieval, as described in Section 2.2.

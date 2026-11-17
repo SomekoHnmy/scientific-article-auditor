@@ -86,9 +86,9 @@ Cross-sectional meta-epidemiological study of published medical research article
 
 ### Sampling frame and eligibility
 
-**Stratum 1** comprises original research published in 2025 in the ten highest-ranked journals of the Journal Citation Reports category "Medicine, General & Internal" after excluding Nature Reviews Disease Primers [@Clarivate2025]; the input is the publisher's version-of-record PDF. **Stratum 2** comprises original research, including systematic reviews, published in 2025 in MEDLINE-indexed journals whose full text lies in the PubMed Central Open Access subset under a CC BY or CC0 licence. Thirty Stratum 2 articles are additionally processed from their PMC XML, giving an input-format sub-analysis.
+**Stratum 1** comprises original research published in 2025 in the ten highest-ranked journals of the Journal Citation Reports category "Medicine, General & Internal" after excluding Nature Reviews Disease Primers [@Clarivate2025]; the input is the publisher's version-of-record PDF. **Stratum 2** comprises original research, including systematic reviews, published in 2025 in MEDLINE-indexed journals whose full text lies in the PubMed Central Open Access subset under a CC BY or CC0 licence, other than as an author manuscript. Thirty Stratum 2 articles are additionally processed from their PMC XML, giving an input-format sub-analysis.
 
-Animal-only studies, narrative reviews, case reports, letters, study protocols, retracted articles, and articles not in English are excluded from both strata. Search strategies are given in Appendix 1; animal-only studies and protocols not indexed as such are excluded by manual screening. Within each stratum, records are drawn in a reproducible random order without replacement and screened until 160 eligible articles are accepted. Ten per stratum are then selected at random for the pipeline development pilot and excluded from the main sample; the remaining 150 per stratum form the main sample of 300 articles. This size may be revised once the pipeline development pilot has given the observed number of flags per article; any revision will be fixed and recorded before the main study begins.
+Animal-only studies, narrative reviews, case reports, letters, study protocols, retracted articles, and articles not in English are excluded from both strata. Search strategies are given in Appendix 1; animal-only studies, protocols not indexed as such, and records that are not original research although indexed as journal articles are excluded by manual screening. Within each stratum, records are drawn in a reproducible random order (fixed seed 20261117) without replacement and screened until 160 eligible articles are accepted. Ten per stratum are then selected at random for the pipeline development pilot and excluded from the main sample; the remaining 150 per stratum form the main sample of 300 articles. This size may be revised once the pipeline development pilot has given the observed number of flags per article; any revision will be fixed and recorded before the main study begins.
 
 ### Article processing
 
@@ -163,7 +163,7 @@ Appendices 1 to 3 are reproduced below. Appendix 4 is held as a separate file in
 
 ## Appendix 1. PubMed search strategies
 
-Both strategies will be executed through the NCBI E-utilities `esearch` endpoint against PubMed. The date of execution and the number of records retrieved will be recorded.
+Both strategies will be executed through the NCBI E-utilities `esearch` endpoint against PubMed. The date of execution and the number of records retrieved will be recorded. Two terms were brought up to date before the searches were first run, because PubMed no longer recognises their earlier forms: the publication type Retraction of Publication, now Retraction Notice (under the earlier name the term is dropped from the search without effect), and the PMC Open Access filter, now "pubmed pmc open access"[filter] (under the earlier name the search retrieves no records).
 
 **Stratum 1 (top-ranked journals).**
 
@@ -184,17 +184,17 @@ AND english[lang]
 NOT ("Case Reports"[pt] OR Letter[pt] OR Comment[pt] OR Editorial[pt]
      OR (Review[pt] NOT systematic[sb]) OR News[pt]
      OR "Published Erratum"[pt] OR "Clinical Trial Protocol"[pt]
-     OR Retraction of Publication[pt] OR Retracted Publication[pt])
+     OR "Retraction Notice"[pt] OR "Retracted Publication"[pt])
 ```
 
 **Stratum 2 (open-access benchmark stratum).**
 
 ```text
-2025[dp] AND medline[sb] AND "pmc open access"[filter] AND english[lang]
+2025[dp] AND medline[sb] AND "pubmed pmc open access"[filter] AND english[lang]
 NOT ("Case Reports"[pt] OR Letter[pt] OR Comment[pt] OR Editorial[pt]
      OR (Review[pt] NOT systematic[sb]) OR News[pt]
      OR "Published Erratum"[pt] OR "Clinical Trial Protocol"[pt]
-     OR Retraction of Publication[pt] OR Retracted Publication[pt])
+     OR "Retraction Notice"[pt] OR "Retracted Publication"[pt])
 ```
 
 License status is not expressible as a PubMed query and is resolved after retrieval, as described in Section 2.2.
