@@ -96,7 +96,7 @@ article is free of such defects.
 | `article_id` | key | Joins to the articles file. |
 | `record_id` | key | Never reused, never renumbered. |
 | `domain` | **categorical** | `internal_reporting_discrepancy` · `graphical_error` · `spin` · `citation_error` · `other_within_article_concern` |
-| `taxonomy_code` | **categorical** | The code of the category in Appendix 3 (`A01` … `D04`), or `X00` for an other within-article concern. The first letter must match `domain`. |
+| `taxonomy_code` | **categorical** | The code of the category in Appendix 3 (`A01` … `D05`), or `X00` for an other within-article concern. The first letter must match `domain`. |
 | `taxonomy_category` | text | The category name. Must match the name Appendix 3 gives for `taxonomy_code` after normalization (below). For `X00`, a short free-text description of the concern. |
 | `provenance` | **categorical** | Who first identified it — see below. |
 | `source_report_id` | text | Populated only when `provenance = source_reported`. |
